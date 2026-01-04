@@ -11,37 +11,37 @@ const artists = [
   {
     name: "Luke Davis",
     location: "POOLE, UNITED KINGDOM",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/1-5.png",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop",
     alt: "A macro shot of a ladybug climbing on a leaf."
   },
   {
     name: "Liz Bretz",
     location: "LOS ANGELES, UNITED STATES",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/2-6.png",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
     alt: "A retro image of a woman sitting at a table with a telephone wire wrapped around her."
   },
   {
     name: "Tanguy Troude",
     location: "PARIS, FRANCE",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/3-7.png",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop",
     alt: "A silhouetted hand held up in front of the moon in the sky."
   },
   {
     name: "Joseph Saraceno",
     location: "TORONTO, CANADA",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/1-8.png",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop",
     alt: "An array of vintage decor laying on a table."
   },
   {
     name: "Gianluca Mortarotti",
     location: "LONDON, UNITED KINGDOM",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/2-9.png",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
     alt: "A elder man in a suit smoking a cigarette."
   },
   {
     name: "Aly Kula",
     location: "BROOKLYN, UNITED STATES",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/3-10.png",
+    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600&auto=format&fit=crop",
     alt: "A young woman posing with a bright, red jacket hanging on her shoulder."
   }
 ];
