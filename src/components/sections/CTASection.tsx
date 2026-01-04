@@ -39,7 +39,7 @@ const CTASection: React.FC = () => {
               lineHeight: '1.5' 
             }}
           >
-            Join the world’s top agencies, brands, and creatives who turn to Stills for captivating, scroll-stopping imagery to license for their campaigns and projects.
+            Join the world’s top agencies, brands, and creatives who turn to Ambient Frames for captivating, scroll-stopping imagery to license for their campaigns and projects.
           </p>
 
           {/* Primary CTA Button */}
