@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/denton');
 
 @import "tailwindcss";
@@ -7,7 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #B3B3B3;
+  --color-background: #B0B0B0;
   --color-foreground: #000000;
 
   --color-card: #FFFFFF;
@@ -19,14 +19,14 @@
   --color-primary: #000000;
   --color-primary-foreground: #FFFFFF;
 
-  --color-secondary: #555555;
+  --color-secondary: #4A4A4A;
   --color-secondary-foreground: #FFFFFF;
 
   --color-muted: #999999;
-  --color-muted-foreground: #555555;
+  --color-muted-foreground: #4A4A4A;
 
-  --color-accent: #FFFFFF;
-  --color-accent-foreground: #000000;
+  --color-accent: #000000;
+  --color-accent-foreground: #FFFFFF;
 
   --color-destructive: #ef4444;
   --color-destructive-foreground: #fafafa;
@@ -35,17 +35,10 @@
   --color-input: #000000;
   --color-ring: #000000;
 
-  --color-sidebar: #B3B3B3;
-  --color-sidebar-foreground: #000000;
-  --color-sidebar-primary: #000000;
-  --color-sidebar-primary-foreground: #FFFFFF;
-  --color-sidebar-accent: #999999;
-  --color-sidebar-accent-foreground: #000000;
-  --color-sidebar-border: #999999;
-  --color-sidebar-ring: #000000;
+  --color-topbar: #1A1A1A;
 
   --font-display: "Denton", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Inter", "Helvetica", sans-serif;
 
   --radius-lg: 0px;
   --radius-md: 0px;
@@ -82,7 +75,7 @@
   }
 
   :root {
-    --background: #B3B3B3;
+    --background: #B0B0B0;
     --foreground: #000000;
     --card: #FFFFFF;
     --card-foreground: #000000;
@@ -90,12 +83,12 @@
     --popover-foreground: #000000;
     --primary: #000000;
     --primary-foreground: #FFFFFF;
-    --secondary: #555555;
+    --secondary: #4A4A4A;
     --secondary-foreground: #FFFFFF;
     --muted: #999999;
-    --muted-foreground: #555555;
-    --accent: #FFFFFF;
-    --accent-foreground: #000000;
+    --muted-foreground: #4A4A4A;
+    --accent: #000000;
+    --accent-foreground: #FFFFFF;
     --destructive: #ef4444;
     --destructive-foreground: #fafafa;
     --border: #999999;
@@ -113,6 +106,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -120,52 +114,63 @@
     line-height: 1.5;
   }
 
-  h1, h2, h3, h4 {
-    @apply font-display font-normal tracking-tight;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-light tracking-tight text-foreground;
   }
 
   h1 {
-    font-size: 96px;
-    font-weight: 300;
-    line-height: 0.95;
+    font-size: clamp(64px, 8vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
   }
 
   h2 {
-    font-size: 64px;
-    line-height: 1.1;
+    font-size: clamp(48px, 5vw, 64px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
   }
 
   h3 {
     font-size: 32px;
-    line-height: 1.2;
+    line-height: 1.1;
   }
 
-  h4 {
-    font-size: 24px;
-    line-height: 1.3;
+  p {
+    @apply text-secondary;
+    font-size: 18px;
+    max-width: 65ch;
   }
 
   .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 24px;
+    width: 100%;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  button, .btn {
+    @apply inline-flex items-center justify-center font-sans font-bold uppercase tracking-widest transition-all duration-300;
+    font-size: 12px;
+    border-radius: 0;
+    cursor: pointer;
   }
 
   .btn-primary {
-    @apply bg-black text-white font-bold uppercase text-[12px] tracking-[1px] px-6 py-3 inline-flex items-center justify-center transition-opacity duration-300 hover:opacity-80;
-    border-radius: 0;
+    @apply bg-black text-white px-8 py-4 hover:opacity-80;
   }
 
-  .artist-meta {
-    @apply text-[11px] font-medium uppercase text-secondary tracking-wider;
+  .meta-label {
+    @apply font-sans font-semibold uppercase text-[10px] tracking-[0.15em] text-secondary;
   }
 
-  .input-underline {
-    @apply w-full bg-transparent border-b border-black py-2 focus:outline-none text-black placeholder:text-muted-foreground;
+  .section-spacing {
+    @apply py-[120px];
   }
 
-  .section-padding {
-    padding: 120px 0;
+  hr {
+    @apply border-t border-border opacity-50;
   }
 }
 
@@ -173,8 +178,19 @@
   .text-balance {
     text-wrap: balance;
   }
-  
-  .image-stack-shadow {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+
+  .collage-image {
+    @apply object-cover shadow-2xl;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collage-image:hover {
+    transform: scale(1.02);
+  }
+
+  .editorial-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
   }
 }
