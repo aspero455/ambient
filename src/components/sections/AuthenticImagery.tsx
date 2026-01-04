@@ -13,19 +13,19 @@ const AuthenticImagery = () => {
   // Assets from provided list
   const sliderImages = [
     {
-      url: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/auth_slide_1_desktop-27.jpg",
+      url: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1200&auto=format&fit=crop",
       alt: "Black and white image of horses in a field",
       title: "Trendsetting Curation",
       description: "Make your project stand out with meticulously curated collections of authentic, relevant photos."
     },
     {
-      url: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/auth_slide_2_desktop-28.jpg",
+      url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop",
       alt: "A silhouetted person standing in front of a golden sky",
       title: "Not Shot for Stock",
       description: "License relevant photos authentically captured by a roster of passionate photographers and artists."
     },
     {
-      url: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/auth_slide_3_desktop-29.jpg",
+      url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
       alt: "A look up and an illuminated-red person",
       title: "Rights Fully Cleared",
       description: "Impress your clients with pre-cleared, authentic imagery—immediately ready to license for all your projects."
