@@ -27,8 +27,8 @@ const WorkflowFeatures = () => {
             <div className="relative group">
               <div className="relative aspect-[4/3] overflow-hidden bg-white/5">
                 <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/boards-24.png"
-                  alt="A collage of images from Stills images with controls to arrange the images"
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
+                  alt="A collage of images from Ambient Frames images with controls to arrange the images"
                   fill
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                 />
@@ -47,8 +47,8 @@ const WorkflowFeatures = () => {
             <div className="relative group">
               <div className="relative aspect-square overflow-hidden bg-white/5">
                 <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/image-search-25.png"
-                  alt="A screenshot of a form to contact Stills for curated images"
+                  src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1200&auto=format&fit=crop"
+                  alt="A screenshot of a form to contact Ambient Frames for curated images"
                   fill
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                 />
