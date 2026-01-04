@@ -20,9 +20,9 @@ const Footer = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
-            {/* This is Stills Column */}
+            {/* This is Ambient Frames Column */}
             <div>
-              <h4 className="font-sans font-semibold text-[14px] mb-6">This is Stills</h4>
+              <h4 className="font-sans font-semibold text-[14px] mb-6">This is Ambient Frames</h4>
               <ul className="space-y-4">
                 <li><a href="/artists" className="font-sans text-[14px] text-[#4A4A4A] hover:text-black transition-colors">Our Artists</a></li>
                 <li><a href="/articles" className="font-sans text-[14px] text-[#4A4A4A] hover:text-black transition-colors">Articles</a></li>
