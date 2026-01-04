@@ -72,7 +72,7 @@ const WorkflowFeatures = () => {
             <div className="relative group">
               <div className="relative aspect-[4/5] overflow-hidden bg-white/5">
                 <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/filters-26.png"
+                  src="https://images.unsplash.com/photo-1454165833767-131438959921?q=80&w=1200&auto=format&fit=crop"
                   alt="A screenshot of intuitive search filters like composition, ratio, color, and more"
                   fill
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
