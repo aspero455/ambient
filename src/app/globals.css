@@ -7,7 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #B0B0B0;
+  --color-background: #FFFFFF;
   --color-foreground: #000000;
 
   --color-card: #FFFFFF;
