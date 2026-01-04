@@ -21,7 +21,7 @@ const HeroSection: React.FC = () => {
               </h1>
               
               <p className="font-sans text-[18px] leading-[1.5] text-[#4A4A4A] max-w-[480px]">
-                When the image <i className="italic">is</i> the campaign, make it count. License authentic, relevant photos on <span className="font-bold text-black">Stills:</span> stock photography redefined.
+                When the image <i className="italic">is</i> the campaign, make it count. License authentic, relevant photos on <span className="font-bold text-black">Ambient Frames:</span> stock photography redefined.
               </p>
               
               <div className="pt-4">
