@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
           {/* Text Content - Left Side */}
           <div className="flex flex-col items-start z-10 order-2 lg:order-1">
             <div className="max-w-[600px]">
-              <h1 className="font-serif text-[60px] md:text-[80px] lg:text-[100px] leading-[1] tracking-tight text-black mb-6">
+              <h1 className="font-display text-[60px] md:text-[80px] lg:text-[100px] leading-[1] tracking-tight text-black mb-6">
                 Image is<br />
                 everything.<sup className="text-[0.4em] align-top mt-[0.2em] inline-block font-sans font-semibold">TM</sup>
               </h1>
