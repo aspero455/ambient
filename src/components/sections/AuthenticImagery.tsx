@@ -90,7 +90,7 @@ const AuthenticImagery = () => {
               </h2>
               
               <p className="font-sans text-[18px] leading-[1.6] text-[#4A4A4A] mb-10">
-                <strong className="text-black">Stills</strong> is a highly curated licensing platform offering a collection of scroll-stopping imagery, pre-cleared and ready to use for campaigns.
+                <strong className="text-black">Ambient Frames</strong> is a highly curated licensing platform offering a collection of scroll-stopping imagery, pre-cleared and ready to use for campaigns.
               </p>
 
               <button className="bg-black text-white px-8 py-4 font-sans font-bold text-[12px] uppercase tracking-[0.15em] hover:opacity-80 transition-opacity">
