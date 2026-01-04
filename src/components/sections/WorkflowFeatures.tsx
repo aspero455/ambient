@@ -91,7 +91,7 @@ const WorkflowFeatures = () => {
             {/* Final CTA Block */}
             <div className="flex flex-col items-start justify-end h-full lg:min-h-[300px] mt-10 lg:mt-0">
               <h3 className="font-display font-light text-[32px] leading-[1.1] text-black mb-8 max-w-[350px]">
-                Create career-defining work with Stills.
+                Create career-defining work with Ambient Frames.
               </h3>
               <a 
                 href="/register" 
