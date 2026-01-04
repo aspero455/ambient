@@ -38,8 +38,8 @@ const HeroSection: React.FC = () => {
               {/* Main Collage Image - Replicating the "hero-1.webp" structure */}
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full aspect-[1.1] z-0">
                 <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/images/hero-1.webp"
-                  alt="Collage of images by Stills artists."
+                  src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=1200&auto=format&fit=crop"
+                  alt="Collage of images by Ambient Frames artists."
                   fill
                   priority
                   className="object-contain"
