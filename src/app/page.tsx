@@ -1,11 +1,14 @@
 import Navigation from "@/components/sections/Navigation";
-import HeroSection from "@/components/sections/Hero";
-import Logos from "@/components/sections/Logos";
-import AuthenticImagery from "@/components/sections/AuthenticImagery";
-import UnforgettableCampaigns from "@/components/sections/UnforgettableCampaigns";
-import NewImagerySlider from "@/components/sections/NewImagerySlider";
-import WorkflowFeatures from "@/components/sections/WorkflowFeatures";
-import CTASection from "@/components/sections/CTASection";
+import HeroEnhanced from "@/components/sections/HeroEnhanced";
+import TextTicker from "@/components/sections/TextTicker";
+import BrandShowcase from "@/components/sections/BrandShowcase";
+import PremiumFeatures from "@/components/sections/PremiumFeatures";
+import InteractiveProcess from "@/components/sections/InteractiveProcess";
+import GalleryShowcase from "@/components/sections/GalleryShowcase";
+import TestimonialsEnhanced from "@/components/sections/TestimonialsEnhanced";
+import FAQSection from "@/components/sections/FAQSection";
+import NewsletterSection from "@/components/sections/NewsletterSection";
+import CTAEnhanced from "@/components/sections/CTAEnhanced";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
@@ -13,13 +16,35 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-white">
       <Navigation />
       <main>
-        <HeroSection />
-        <Logos />
-        <AuthenticImagery />
-        <UnforgettableCampaigns />
-        <NewImagerySlider />
-        <WorkflowFeatures />
-        <CTASection />
+        {/* Enhanced Hero Section with animated text reveal and floating elements */}
+        <HeroEnhanced />
+
+        {/* Infinite scrolling text marquee */}
+        <TextTicker />
+
+        {/* Premium brand showcase with dual marquees */}
+        <BrandShowcase />
+
+        {/* Bento-grid premium features */}
+        <PremiumFeatures />
+
+        {/* Interactive step-by-step process */}
+        <InteractiveProcess />
+
+        {/* Filterable masonry gallery */}
+        <GalleryShowcase />
+
+        {/* Enhanced testimonials with featured card */}
+        <TestimonialsEnhanced />
+
+        {/* Interactive FAQ accordion */}
+        <FAQSection />
+
+        {/* Newsletter signup section */}
+        <NewsletterSection />
+
+        {/* Enhanced call to action section */}
+        <CTAEnhanced />
       </main>
       <Footer />
     </div>

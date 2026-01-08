@@ -1,14 +1,10 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 
 /**
- * Logos component featuring industry partners in a grayscale, minimal style.
- * Following the provided design system:
- * - Color: Grayscale (using opacity/filter)
- * - Layout: Static grid-like flex arrangement
- * - Background: Matches the page background (#B0B0B0)
+ * Logos component featuring industry partners with infinite marquee animation.
+ * Following the provided design system with smooth hover pause effect.
  */
 
 const LOGO_ASSETS = [
@@ -28,39 +24,52 @@ const LOGO_ASSETS = [
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/4d6b9509-1c19-439f-97bd-4d6ee0783931-stills-com/assets/svgs/citizens_financial_group-14.svg", alt: "Citizens Financial Group logo", size: 'medium' }
 ];
 
-const Logos: React.FC = () => {
-  return (
-    <section className="bg-[#B0B0B0] py-16 px-5 w-full flex justify-center border-t border-[#999999]/30">
-      <div className="max-w-[1440px] w-full">
-        {/*
-          Using a flex-wrap container with generous gaps to match the "Trusted By Strip" layout.
-          The logos are treated with grayscale and 0.7 opacity as per high-level design.
-        */}
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-10 md:gap-x-16 md:gap-y-12 transition-opacity duration-500">
-          {LOGO_ASSETS.map((logo, index) => {
-            const sizeClass = 
-              logo.size === 'small' ? 'h-6' : 
-              logo.size === 'medium' ? 'h-8' : 
-              'h-10';
+const LogoItem: React.FC<{ logo: typeof LOGO_ASSETS[0] }> = ({ logo }) => {
+  const sizeClass =
+    logo.size === 'small' ? 'h-6' :
+      logo.size === 'medium' ? 'h-8' :
+        'h-10';
 
-            return (
-              <div 
-                key={index} 
-                className={`relative flex items-center justify-center opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 ${sizeClass}`}
-              >
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  style={{
-                    maxHeight: '100%',
-                    width: 'auto',
-                    objectFit: 'contain'
-                  }}
-                  className="block"
-                />
-              </div>
-            );
-          })}
+  return (
+    <div
+      className={`flex-shrink-0 flex items-center justify-center mx-8 md:mx-12 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 ${sizeClass}`}
+    >
+      <img
+        src={logo.src}
+        alt={logo.alt}
+        style={{
+          maxHeight: '100%',
+          width: 'auto',
+          objectFit: 'contain'
+        }}
+        className="block"
+      />
+    </div>
+  );
+};
+
+const Logos: React.FC = () => {
+  // Double the logos for seamless loop
+  const allLogos = [...LOGO_ASSETS, ...LOGO_ASSETS];
+
+  return (
+    <section className="bg-white py-10 overflow-hidden border-t border-[#E5E5E5]">
+      {/* Marquee Container */}
+      <div className="relative flex items-center">
+        {/* Fade edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+        {/* Animated Marquee */}
+        <div className="animate-marquee flex items-center hover:[animation-play-state:paused]">
+          {allLogos.map((logo, index) => (
+            <LogoItem key={`logo-${index}`} logo={logo} />
+          ))}
+        </div>
+        <div className="animate-marquee flex items-center absolute left-full hover:[animation-play-state:paused]">
+          {allLogos.map((logo, index) => (
+            <LogoItem key={`logo-dup-${index}`} logo={logo} />
+          ))}
         </div>
       </div>
     </section>
