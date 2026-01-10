@@ -1,7 +1,8 @@
 import Navigation from "@/components/sections/Navigation";
 import HeroEnhanced from "@/components/sections/HeroEnhanced";
 import TextTicker from "@/components/sections/TextTicker";
-import BrandShowcase from "@/components/sections/BrandShowcase";
+import PhilosophySection from "@/components/sections/PhilosophySection";
+import GlowingOrb from "@/components/sections/GlowingOrb";
 import PremiumFeatures from "@/components/sections/PremiumFeatures";
 import InteractiveProcess from "@/components/sections/InteractiveProcess";
 import GalleryShowcase from "@/components/sections/GalleryShowcase";
@@ -10,6 +11,8 @@ import FAQSection from "@/components/sections/FAQSection";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 import CTAEnhanced from "@/components/sections/CTAEnhanced";
 import Footer from "@/components/sections/Footer";
+
+import FindPhotosCTA from "@/components/sections/FindPhotosCTA";
 
 export default function Home() {
   return (
@@ -22,8 +25,14 @@ export default function Home() {
         {/* Infinite scrolling text marquee */}
         <TextTicker />
 
-        {/* Premium brand showcase with dual marquees */}
-        <BrandShowcase />
+        {/* Find Photos CTA Section */}
+        <FindPhotosCTA />
+
+        {/* Artistic Vision / Philosophy Section */}
+        <PhilosophySection />
+
+        {/* Ambient Light Orb */}
+        <GlowingOrb />
 
         {/* Bento-grid premium features */}
         <PremiumFeatures />

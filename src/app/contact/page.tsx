@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Navigation from '@/components/sections/Navigation';
 import Footer from '@/components/sections/Footer';
-import BrandShowcase from '@/components/sections/BrandShowcase';
 import FAQSection from '@/components/sections/FAQSection';
 import AnimatedCameraBackground from '@/components/ui/AnimatedCameraBackground';
 
@@ -344,8 +343,8 @@ export default function ContactPage() {
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
                                             <div>
                                                 <h3 className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/30 mb-4">Email</h3>
-                                                <a href="mailto:hello@ambientframes.com" className="font-sans text-[16px] text-black hover:text-black/40 transition-colors">
-                                                    hello@ambientframes.com
+                                                <a href="mailto:ambientframesin@gmail.com" className="font-sans text-[16px] text-black hover:text-black/40 transition-colors">
+                                                    ambientframesin@gmail.com
                                                 </a>
                                             </div>
                                             <div>
@@ -360,15 +359,26 @@ export default function ContactPage() {
                                     <div className="pt-12 border-t border-black/5">
                                         <h3 className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/30 mb-6">Follow our journey</h3>
                                         <div className="flex gap-8">
-                                            {['Instagram', 'Vimeo', 'LinkedIn'].map((social) => (
-                                                <a
-                                                    key={social}
-                                                    href="#"
-                                                    className="font-sans text-[13px] font-bold uppercase tracking-widest text-black hover:text-black/40 transition-colors border-b border-transparent hover:border-black/20 pb-1"
-                                                >
-                                                    {social}
-                                                </a>
-                                            ))}
+                                            <a
+                                                href="https://www.instagram.com/ambientframes.in/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="font-sans text-[13px] font-bold uppercase tracking-widest text-black hover:text-black/40 transition-colors border-b border-transparent hover:border-black/20 pb-1"
+                                            >
+                                                Instagram
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="font-sans text-[13px] font-bold uppercase tracking-widest text-black hover:text-black/40 transition-colors border-b border-transparent hover:border-black/20 pb-1"
+                                            >
+                                                Vimeo
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="font-sans text-[13px] font-bold uppercase tracking-widest text-black hover:text-black/40 transition-colors border-b border-transparent hover:border-black/20 pb-1"
+                                            >
+                                                LinkedIn
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -376,11 +386,6 @@ export default function ContactPage() {
                         </div>
                     </div>
                 </section>
-
-                {/* ═══════════════════════════════════════════════════════════════
-                    SOCIAL PROOF: TRUSTED BY
-                ═══════════════════════════════════════════════════════════════ */}
-                <BrandShowcase />
 
                 {/* ═══════════════════════════════════════════════════════════════
                     FAQ: ALWAYS OPEN

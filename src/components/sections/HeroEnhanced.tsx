@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 /**
@@ -163,6 +164,35 @@ const HeroEnhanced: React.FC = () => {
                 className="absolute top-[60%] right-[15%] w-8 h-8 border border-black/10 rounded-full animate-float-delay hidden lg:block"
             />
 
+            {/* Instagram Icon Link - Top Right */}
+            <motion.a
+                href="https://www.instagram.com/ambientframes.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-8 right-8 z-50 group hidden md:flex items-center justify-center w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:shadow-md hover:scale-110 transition-all duration-300 border border-black/5"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
+            >
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                <div className="absolute inset-[1px] rounded-full bg-white group-hover:bg-transparent transition-colors duration-300" />
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="relative z-10 text-black group-hover:text-white transition-colors duration-300"
+                >
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </motion.a>
+
             <div className="container mx-auto px-6 md:px-10 max-w-[1440px] pt-[40px] pb-[100px] md:pt-[60px] md:pb-[160px] relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center min-h-[70vh]">
                     {/* Left Content */}
@@ -241,6 +271,12 @@ const HeroEnhanced: React.FC = () => {
                                 <span className="relative z-10">Book a Session</span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#333] to-[#555] transform translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
                             </button>
+                            <Link href="/find-photos/scan" className="group flex items-center gap-3 px-8 py-5 font-sans font-bold text-[12px] tracking-[0.15em] uppercase text-white bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 transition-all shadow-lg hover:shadow-xl">
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <span>Find Photos</span>
+                            </Link>
                             <button className="group flex items-center gap-3 px-8 py-5 font-sans font-bold text-[12px] tracking-[0.15em] uppercase text-black border-2 border-black/20 hover:border-black transition-colors">
                                 <span>View Portfolio</span>
                                 <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center group-hover:scale-110 transition-transform">

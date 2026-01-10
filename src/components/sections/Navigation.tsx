@@ -96,8 +96,8 @@ const Navigation = () => {
             Blog
           </Link>
           <span className="text-[#4A4A4A]">|</span>
-          <Link href="https://www.filmsupply.com/" className="text-white hover:opacity-70 transition-opacity">
-            Filmsupply
+          <Link href="/find-photos" className="text-white hover:opacity-70 transition-opacity">
+            Find Photos
           </Link>
           <span className="text-[#4A4A4A]">|</span>
           <Link href="/" className="text-white hover:opacity-70 transition-opacity">
@@ -154,7 +154,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Right Side - Join Us & Date/Time */}
+        {/* Right Side - Find Photos, Book Us & Date/Time */}
         <div className="flex items-center gap-4 md:gap-6">
           {/* Date/Time with Country Flag - Desktop Only */}
           <div className="hidden md:flex items-center gap-3 text-[12px] text-[#4A4A4A]">
@@ -167,12 +167,20 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Join Us Button */}
+          {/* Find Photos Link */}
           <Link
-            href="/join"
+            href="/find-photos"
+            className="hidden md:block text-[11px] font-bold uppercase tracking-[0.15em] text-black hover:text-black/60 transition-colors whitespace-nowrap"
+          >
+            Find Photos
+          </Link>
+
+          {/* Book Us Button */}
+          <Link
+            href="/book"
             className="bg-black text-white text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] px-4 py-3 md:px-6 md:py-[14px] hover:bg-black/80 transition-all whitespace-nowrap"
           >
-            Join Us
+            Book Us
           </Link>
         </div>
       </div>
@@ -219,11 +227,11 @@ const Navigation = () => {
               Blog
             </Link>
             <Link
-              href="https://www.filmsupply.com/"
+              href="/find-photos"
               className="block text-[24px] font-display font-light text-black border-b border-gray-100 pb-4"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Filmsupply
+              Find Photos
             </Link>
           </div>
 
@@ -238,11 +246,11 @@ const Navigation = () => {
 
           <div className="space-y-4">
             <Link
-              href="/join"
+              href="/book"
               className="block w-full bg-black text-white text-center py-4 text-[14px] font-bold uppercase tracking-widest"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Join Us
+              Book Us
             </Link>
             <Link
               href="/contact"

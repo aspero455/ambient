@@ -91,10 +91,10 @@ const Footer = () => {
                 <strong className="text-black">FM</strong> is a family of brands dedicated to empowering the creative.
               </p>
               <div className="space-y-5">
-                <div className="group cursor-pointer">
-                  <h5 className="font-sans font-bold text-[10px] uppercase tracking-widest mb-1 group-hover:text-[#666666] transition-colors">Filmsupply</h5>
-                  <p className="font-sans text-[11px] text-[#4A4A4A]">Footage licensing for productions</p>
-                </div>
+                <Link href="/find-photos" className="group cursor-pointer block">
+                  <h5 className="font-sans font-bold text-[10px] uppercase tracking-widest mb-1 group-hover:text-[#666666] transition-colors">Find Photos</h5>
+                  <p className="font-sans text-[11px] text-[#4A4A4A]">AI-powered face detection & matching</p>
+                </Link>
                 <Link href="/blog" className="group cursor-pointer block">
                   <h5 className="font-sans font-bold text-[10px] uppercase tracking-widest mb-1 group-hover:text-[#666666] transition-colors">The Blog</h5>
                   <p className="font-sans text-[11px] text-[#4A4A4A]">Stories, insights & perspectives</p>
@@ -131,7 +131,7 @@ const Footer = () => {
             <a href="https://facebook.com" className="group text-[#4A4A4A] hover:text-black transition-colors p-2">
               <Facebook size={18} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
             </a>
-            <a href="https://instagram.com" className="group text-[#4A4A4A] hover:text-black transition-colors p-2">
+            <a href="https://www.instagram.com/ambientframes.in/" target="_blank" rel="noopener noreferrer" className="group text-[#4A4A4A] hover:text-black transition-colors p-2">
               <Instagram size={18} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
             </a>
             <a href="https://linkedin.com" className="group text-[#4A4A4A] hover:text-black transition-colors p-2">
