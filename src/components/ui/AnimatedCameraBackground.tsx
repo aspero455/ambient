@@ -34,7 +34,7 @@ const AnimatedCameraBackground: React.FC<AnimatedCameraBackgroundProps> = ({
     useEffect(() => {
         // Handle responsive count
         const isMobile = window.innerWidth < 768;
-        const actualCount = isMobile ? Math.min(count, 15) : count;
+        const actualCount = isMobile ? 0 : count;
 
         // Generate icons only on client-side to prevent hydration mismatch
         const newIcons = Array.from({ length: actualCount }).map((_, i) => ({

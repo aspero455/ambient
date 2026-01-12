@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 
 const GlowingOrb: React.FC = () => {
     return (
-        <div className="relative w-full h-[0px] z-0 pointer-events-none flex justify-center">
+        <div className="relative w-full h-[0px] z-0 pointer-events-none hidden md:flex justify-center">
             <motion.div
                 className="absolute transform -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[120px]"
                 style={{

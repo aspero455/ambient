@@ -119,8 +119,8 @@ const TestimonialsEnhanced: React.FC = () => {
                         backgroundSize: '48px 48px',
                     }}
                 />
-                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-[100px]" />
-                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-white/[0.02] rounded-full blur-[80px]" />
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-[100px] hidden md:block" />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-white/[0.02] rounded-full blur-[80px] hidden md:block" />
             </div>
 
             <div className="container mx-auto px-6 md:px-10 max-w-[1440px] relative z-10">

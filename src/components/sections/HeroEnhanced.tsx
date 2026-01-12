@@ -49,7 +49,7 @@ const HeroEnhanced: React.FC = () => {
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 {/* 1. Soft Amber Glow (Warmth) */}
                 <motion.div
-                    className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-orange-100/40 blur-[100px] mix-blend-multiply"
+                    className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-orange-100/40 blur-[100px] mix-blend-multiply hidden md:block"
                     animate={{
                         x: [0, 50, 0],
                         y: [0, 100, 0],
@@ -60,7 +60,7 @@ const HeroEnhanced: React.FC = () => {
 
                 {/* 2. Cool Blue Mist (Professionalism) */}
                 <motion.div
-                    className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-blue-100/40 blur-[120px] mix-blend-multiply"
+                    className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-blue-100/40 blur-[120px] mix-blend-multiply hidden md:block"
                     animate={{
                         x: [0, -60, 0],
                         y: [0, -80, 0],
@@ -71,7 +71,7 @@ const HeroEnhanced: React.FC = () => {
 
                 {/* 3. Subtle Purple Haze (Creativity) */}
                 <motion.div
-                    className="absolute top-[30%] left-[30%] w-[50vw] h-[50vw] rounded-full bg-purple-100/30 blur-[90px] mix-blend-multiply"
+                    className="absolute top-[30%] left-[30%] w-[50vw] h-[50vw] rounded-full bg-purple-100/30 blur-[90px] mix-blend-multiply hidden md:block"
                     animate={{
                         x: [0, 80, -40, 0],
                         y: [0, -60, 40, 0],
@@ -82,7 +82,7 @@ const HeroEnhanced: React.FC = () => {
 
                 {/* Interactive cursor glow */}
                 <motion.div
-                    className="absolute w-[400px] h-[400px] bg-white/60 blur-[80px] rounded-full mix-blend-overlay opacity-50"
+                    className="absolute w-[400px] h-[400px] bg-white/60 blur-[80px] rounded-full mix-blend-overlay opacity-50 hidden md:block"
                     animate={{
                         x: isLoaded && typeof window !== 'undefined' ? mousePosition.x * window.innerWidth - 200 : 0,
                         y: isLoaded && typeof window !== 'undefined' ? mousePosition.y * window.innerHeight - 200 : 0,
@@ -92,7 +92,7 @@ const HeroEnhanced: React.FC = () => {
 
                 {/* Floating Camera Icon */}
                 <motion.div
-                    className="absolute z-0 opacity-10 pointer-events-none text-black"
+                    className="absolute z-0 opacity-10 pointer-events-none text-black hidden md:block"
                     initial={{ x: "10%", y: "10%", rotate: -15 }}
                     animate={{
                         x: ["10%", "80%", "40%", "10%"],

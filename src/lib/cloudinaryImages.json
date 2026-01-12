@@ -1,0 +1,206 @@
+{
+  "home": {
+    "home_hero_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768164917/ambient-frames/home/home_hero_1_1768164912834.jpg",
+      "publicId": "ambient-frames/home/home_hero_1_1768164912834"
+    },
+    "home_hero_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157463/ambient-frames/home/home_hero_2.jpg",
+      "publicId": "ambient-frames/home/home_hero_2"
+    },
+    "home_gallery_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157465/ambient-frames/home/home_gallery_1.jpg",
+      "publicId": "ambient-frames/home/home_gallery_1"
+    },
+    "home_gallery_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157467/ambient-frames/home/home_gallery_2.jpg",
+      "publicId": "ambient-frames/home/home_gallery_2"
+    },
+    "home_gallery_3": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157468/ambient-frames/home/home_gallery_3.jpg",
+      "publicId": "ambient-frames/home/home_gallery_3"
+    }
+  },
+  "about": {
+    "about_hero": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157469/ambient-frames/about/about_hero.jpg",
+      "publicId": "ambient-frames/about/about_hero"
+    },
+    "about_story_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157471/ambient-frames/about/about_story_1.jpg",
+      "publicId": "ambient-frames/about/about_story_1"
+    },
+    "about_story_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157472/ambient-frames/about/about_story_2.jpg",
+      "publicId": "ambient-frames/about/about_story_2"
+    },
+    "about_service_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157474/ambient-frames/about/about_service_1.jpg",
+      "publicId": "ambient-frames/about/about_service_1"
+    },
+    "about_service_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768159219/ambient-frames/about/about_service_2_1768159213945.jpg",
+      "publicId": "ambient-frames/about/about_service_2_1768159213945"
+    },
+    "about_service_3": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157476/ambient-frames/about/about_service_3.jpg",
+      "publicId": "ambient-frames/about/about_service_3"
+    },
+    "about_service_4": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768158925/ambient-frames/about/about_service_4_1768158920494.jpg",
+      "publicId": "ambient-frames/about/about_service_4_1768158920494"
+    }
+  },
+  "gallery": {
+    "gallery_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157479/ambient-frames/gallery/gallery_1.jpg",
+      "publicId": "ambient-frames/gallery/gallery_1"
+    },
+    "gallery_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768164093/ambient-frames/gallery/gallery_2_1768164088762.jpg",
+      "publicId": "ambient-frames/gallery/gallery_2_1768164088762"
+    },
+    "gallery_3": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157482/ambient-frames/gallery/gallery_3.jpg",
+      "publicId": "ambient-frames/gallery/gallery_3"
+    },
+    "gallery_4": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157483/ambient-frames/gallery/gallery_4.jpg",
+      "publicId": "ambient-frames/gallery/gallery_4"
+    },
+    "gallery_5": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157485/ambient-frames/gallery/gallery_5.jpg",
+      "publicId": "ambient-frames/gallery/gallery_5"
+    },
+    "gallery_6": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157486/ambient-frames/gallery/gallery_6.jpg",
+      "publicId": "ambient-frames/gallery/gallery_6"
+    },
+    "gallery_7": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157487/ambient-frames/gallery/gallery_7.jpg",
+      "publicId": "ambient-frames/gallery/gallery_7"
+    },
+    "gallery_8": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157489/ambient-frames/gallery/gallery_8.jpg",
+      "publicId": "ambient-frames/gallery/gallery_8"
+    },
+    "gallery_9": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157490/ambient-frames/gallery/gallery_9.jpg",
+      "publicId": "ambient-frames/gallery/gallery_9"
+    },
+    "gallery_10": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157492/ambient-frames/gallery/gallery_10.jpg",
+      "publicId": "ambient-frames/gallery/gallery_10"
+    },
+    "gallery_11": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157493/ambient-frames/gallery/gallery_11.jpg",
+      "publicId": "ambient-frames/gallery/gallery_11"
+    },
+    "gallery_12": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157494/ambient-frames/gallery/gallery_12.jpg",
+      "publicId": "ambient-frames/gallery/gallery_12"
+    }
+  },
+  "services": {
+    "services_wedding": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768167120/ambient-frames/services/services_wedding_1768167115898.jpg",
+      "publicId": "ambient-frames/services/services_wedding_1768167115898"
+    },
+    "services_portrait": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768167118/ambient-frames/services/services_portrait_1768167114479.jpg",
+      "publicId": "ambient-frames/services/services_portrait_1768167114479"
+    },
+    "services_corporate": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768167112/ambient-frames/services/services_corporate_1768167104198.jpg",
+      "publicId": "ambient-frames/services/services_corporate_1768167104198"
+    },
+    "services_fashion": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768167116/ambient-frames/services/services_fashion_1768167111563.jpg",
+      "publicId": "ambient-frames/services/services_fashion_1768167111563"
+    },
+    "services_family": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768167114/ambient-frames/services/services_family_1768167109826.jpg",
+      "publicId": "ambient-frames/services/services_family_1768167109826"
+    },
+    "services_maternity": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768167117/ambient-frames/services/services_maternity_1768167113128.jpg",
+      "publicId": "ambient-frames/services/services_maternity_1768167113128"
+    }
+  },
+  "blog": {
+    "blog_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157504/ambient-frames/blog/blog_1.jpg",
+      "publicId": "ambient-frames/blog/blog_1"
+    },
+    "blog_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768168822/ambient-frames/blog/blog_2_1768168817582.jpg",
+      "publicId": "ambient-frames/blog/blog_2_1768168817582"
+    },
+    "blog_3": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157507/ambient-frames/blog/blog_3.jpg",
+      "publicId": "ambient-frames/blog/blog_3"
+    },
+    "blog_4": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157508/ambient-frames/blog/blog_4.jpg",
+      "publicId": "ambient-frames/blog/blog_4"
+    },
+    "blog_5": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157510/ambient-frames/blog/blog_5.jpg",
+      "publicId": "ambient-frames/blog/blog_5"
+    },
+    "blog_6": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768157511/ambient-frames/blog/blog_6.jpg",
+      "publicId": "ambient-frames/blog/blog_6"
+    }
+  },
+  "projects": {
+    "project_1": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768159995/ambient-frames/projects/project_1.webp",
+      "publicId": "ambient-frames/projects/project_1"
+    },
+    "project_2": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160259/ambient-frames/projects/project_2_1768160251786.jpg",
+      "publicId": "ambient-frames/projects/project_2_1768160251786"
+    },
+    "project_3": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768159998/ambient-frames/projects/project_3.webp",
+      "publicId": "ambient-frames/projects/project_3"
+    },
+    "project_4": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768159999/ambient-frames/projects/project_4.webp",
+      "publicId": "ambient-frames/projects/project_4"
+    },
+    "project_5": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160000/ambient-frames/projects/project_5.webp",
+      "publicId": "ambient-frames/projects/project_5"
+    },
+    "project_6": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160001/ambient-frames/projects/project_6.webp",
+      "publicId": "ambient-frames/projects/project_6"
+    },
+    "project_7": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160002/ambient-frames/projects/project_7.webp",
+      "publicId": "ambient-frames/projects/project_7"
+    },
+    "project_8": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160003/ambient-frames/projects/project_8.webp",
+      "publicId": "ambient-frames/projects/project_8"
+    },
+    "project_9": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160005/ambient-frames/projects/project_9.webp",
+      "publicId": "ambient-frames/projects/project_9"
+    },
+    "project_10": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160006/ambient-frames/projects/project_10.jpg",
+      "publicId": "ambient-frames/projects/project_10"
+    },
+    "project_11": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160007/ambient-frames/projects/project_11.jpg",
+      "publicId": "ambient-frames/projects/project_11"
+    },
+    "project_12": {
+      "url": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768160008/ambient-frames/projects/project_12.jpg",
+      "publicId": "ambient-frames/projects/project_12"
+    }
+  }
+}

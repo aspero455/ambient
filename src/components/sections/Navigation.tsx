@@ -128,6 +128,7 @@ const Navigation = () => {
 
           {/* Logo */}
           <Link href="/" className="flex items-center group">
+            <img src="/logo/logo.svg" alt="Ambient Frames" className="h-8 md:h-10 w-auto" />
             <span style={{ fontFamily: "'Playfair Display', serif" }} className="text-[20px] md:text-[26px] font-bold tracking-wide text-black group-hover:text-black/70 transition-colors">
               Ambient Frames
             </span>

@@ -14,73 +14,29 @@ import AnimatedCameraBackground from '@/components/ui/AnimatedCameraBackground';
  * with premium parallax effects and archival-style typography.
  */
 
-const galleryImages = [
-    {
-        src: "/img/524877796_18281941537284138_7194601866269685029_n..webp",
-        title: "Ethereal Morning",
-        category: "Bridal",
-        aspect: "aspect-[4/5]"
-    },
-    {
-        src: "/img/528577300_18282637933284138_6024131309224852219_n..webp",
-        title: "Urban Echoes",
-        category: "Portrait",
-        aspect: "aspect-[4/5]"
-    },
-    {
-        src: "/img/528631979_18282710314284138_2035724994247197640_n..webp",
-        title: "The Golden Union",
-        category: "Wedding",
-        aspect: "aspect-square"
-    },
-    {
-        src: "/img/529672310_18282710362284138_7894353990389373612_n..webp",
-        title: "Velvet Shadows",
-        category: "Editorial",
-        aspect: "aspect-square"
-    },
-    {
-        src: "/img/530361918_18283380247284138_133094580325100578_n..webp",
-        title: "Ancestral Light",
-        category: "Cultural",
-        aspect: "aspect-[4/5]"
-    },
-    {
-        src: "/img/531822595_18283640836284138_2008306935621772497_n..webp",
-        title: "Silent Symmetry",
-        category: "Architecture",
-        aspect: "aspect-[4/5]"
-    },
-    {
-        src: "/img/532508474_18283639534284138_7821912398438107581_n..webp",
-        title: "Midnight Soul",
-        category: "Black & White",
-        aspect: "aspect-square"
-    },
-    {
-        src: "/img/566414945_18292643884284138_3751019525464458517_n.jpeg",
-        title: "Bloom & Dust",
-        category: "Fashion",
-        aspect: "aspect-square"
-    },
-    {
-        src: "/img/567395566_18292643899284138_984878061390000747_n.jpeg",
-        title: "The Voyager",
-        category: "Candid",
-        aspect: "aspect-[4/5]"
-    },
-    {
-        src: "/img/584919632_18301346926284138_3623525760133837999_n.jpeg",
-        title: "Infinite Gaze",
-        category: "Macro",
-        aspect: "aspect-[4/5]"
-    }
-];
-
 export default function GalleryPage() {
     const [scrollY, setScrollY] = useState(0);
     const heroRef = useRef<HTMLElement>(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [galleryImages, setGalleryImages] = useState<any[]>([]);
+
+    // Fetch dynamic images from Gallery API
+    useEffect(() => {
+        fetch('/api/gallery')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    // Map API data to component format with dynamic aspect ratios
+                    const mappedImages = data.map((img: any, index: number) => ({
+                        ...img,
+                        src: img.image,
+                        aspect: index % 3 === 0 ? 'aspect-[4/5]' : 'aspect-square'
+                    }));
+                    setGalleryImages(mappedImages);
+                }
+            })
+            .catch(error => console.error('Failed to fetch gallery images:', error));
+    }, []);
 
     useEffect(() => {
         setIsLoaded(true);
@@ -99,7 +55,7 @@ export default function GalleryPage() {
                 ═══════════════════════════════════════════════════════════════ */}
                 <section
                     ref={heroRef}
-                    className="relative min-h-[70vh] bg-white overflow-hidden flex items-center justify-center pt-20"
+                    className="relative min-h-[90vh] bg-white overflow-hidden flex items-center justify-center pt-20"
                 >
                     {/* Background Layers */}
                     <div className="absolute inset-0 pointer-events-none">
@@ -116,45 +72,85 @@ export default function GalleryPage() {
                             }}
                         />
 
-                        {/* 2. Soft Orbs */}
+                        {/* 2. Centered Floating Golden Orbs - Constrained Vertical Movement */}
                         <motion.div
-                            className="absolute top-1/4 right-[5%] w-[500px] h-[500px] rounded-full"
+                            className="absolute w-[800px] h-[800px] rounded-full"
                             style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.04) 0%, transparent 70%)',
-                                filter: 'blur(60px)',
+                                background: 'radial-gradient(circle, rgba(251, 191, 36, 0.4) 0%, rgba(245, 158, 11, 0.1) 40%, transparent 70%)',
+                                filter: 'blur(90px)',
                             }}
                             animate={{
-                                y: [0, -40, 0],
+                                x: ['-25%', '25%', '-25%'],
+                                y: ['-10%', '10%', '-10%'], // Constrained to center
                                 scale: [1, 1.1, 1],
                             }}
-                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                        <motion.div
-                            className="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%)',
-                                filter: 'blur(50px)',
+                            transition={{
+                                duration: 15,
+                                repeat: Infinity,
+                                ease: "easeInOut"
                             }}
-                            animate={{
-                                y: [0, 50, 0],
-                                scale: [1, 1.2, 1],
-                            }}
-                            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                            initial={{ top: '50%', left: '50%', x: '-50%', y: '-50%' }}
                         />
 
-                        {/* 3. Golden Highlight Orb */}
                         <motion.div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-30"
+                            className="absolute w-[600px] h-[600px] rounded-full"
                             style={{
-                                background: 'radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, transparent 70%)',
+                                background: 'radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, transparent 70%)',
                                 filter: 'blur(100px)',
                             }}
                             animate={{
-                                opacity: [0.2, 0.4, 0.2],
-                                scale: [1, 1.1, 1],
+                                x: ['25%', '-25%', '25%'],
+                                y: ['10%', '-10%', '10%'], // Constrained to center
+                                scale: [1.1, 1, 1.1],
                             }}
-                            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                            transition={{
+                                duration: 20,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            initial={{ top: '50%', left: '50%', x: '-50%', y: '-50%' }}
                         />
+
+                        {/* 3. Floating Memory Frames - Filling Empty Space */}
+                        {[
+                            { x: '10%', y: '20%', r: -12, scale: 0.8, delay: 0 },
+                            { x: '85%', y: '15%', r: 15, scale: 0.9, delay: 1.5 },
+                            { x: '15%', y: '75%', r: 8, scale: 0.7, delay: 0.5 },
+                            { x: '80%', y: '80%', r: -10, scale: 0.85, delay: 2 },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                className="absolute w-40 h-52 bg-white p-3 pb-8 shadow-2xl flex items-center justify-center transform-gpu"
+                                style={{
+                                    left: item.x,
+                                    top: item.y,
+                                    rotate: item.r,
+                                }}
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{
+                                    opacity: [0, 0.4, 0.4, 0], // Subtle visibility
+                                    scale: [0.8, item.scale, item.scale, 0.8],
+                                    y: [0, -30, 0], // Floating Effect
+                                    rotate: [item.r, item.r + 5, item.r],
+                                }}
+                                transition={{
+                                    duration: 12,
+                                    repeat: Infinity,
+                                    delay: item.delay,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <div className="w-full h-full bg-gray-100 relative overflow-hidden">
+                                    {/* Abstract Placeholder for Image */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-gray-200 to-gray-50 opacity-50" />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <svg className="w-8 h-8 text-black/5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
 
                     {/* Animated Camera Background */}
@@ -207,17 +203,58 @@ export default function GalleryPage() {
                 {/* ═══════════════════════════════════════════════════════════════
                     SECTION 2: THE GRID - 2 Columns Layout
                 ═══════════════════════════════════════════════════════════════ */}
-                <section className="py-20 md:py-40 bg-white">
-                    <div className="container mx-auto px-6 md:px-12 max-w-[1440px]">
+                <section className="py-20 md:py-40 bg-white relative overflow-hidden">
+                    {/* Large Golden Glow Backgrounds */}
+                    <motion.div
+                        className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(245, 158, 11, 0.1) 40%, transparent 70%)',
+                            filter: 'blur(100px)',
+                        }}
+                        animate={{
+                            x: ['-20%', '30%', '-10%'],
+                            y: ['0%', '20%', '0%'],
+                            scale: [1, 1.2, 1],
+                        }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                        className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(217, 119, 6, 0.2) 0%, rgba(251, 191, 36, 0.08) 50%, transparent 70%)',
+                            filter: 'blur(120px)',
+                        }}
+                        animate={{
+                            x: ['20%', '-30%', '20%'],
+                            y: ['0%', '-20%', '0%'],
+                            scale: [1, 1.3, 1],
+                        }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    {/* Middle Spreading Golden Glow */}
+                    <motion.div
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] rounded-full pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 60%)',
+                            filter: 'blur(80px)',
+                        }}
+                        animate={{
+                            scale: [1, 1.15, 1],
+                            opacity: [0.5, 0.8, 0.5],
+                        }}
+                        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <div className="container mx-auto px-6 md:px-12 max-w-[1440px] relative z-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 md:gap-y-48">
                             {galleryImages.map((image, index) => (
                                 <motion.div
                                     key={index}
                                     initial={{ opacity: 0, y: 100 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                                    whileHover={{ scale: 1.02, y: -10 }}
+                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                                     viewport={{ once: true, margin: "-100px" }}
-                                    className={`group relative ${index % 2 !== 0 ? 'md:mt-32' : ''}`}
+                                    className={`group relative cursor-pointer ${index % 2 !== 0 ? 'md:mt-32' : ''}`}
                                 >
                                     {/* Image Container */}
                                     <div className={`relative overflow-hidden bg-[#F5F5F5] ${image.aspect} shadow-2xl`}>

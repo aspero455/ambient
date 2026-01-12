@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
@@ -9,12 +9,13 @@ import Footer from '@/components/sections/Footer';
 import AnimatedCameraBackground from '@/components/ui/AnimatedCameraBackground';
 
 /**
- * Projects Page - Modern Redesign
- * A stunning portfolio showcase with creative layouts and smooth animations
+ * Projects Page
+ * Features the restored "Our Work" hero with floating polaroids,
+ * followed by the new immersive grid and detailed case studies.
  */
 
-// Portfolio images
-const portfolioImages = [
+// Default portfolio images
+const defaultPortfolioImages = [
     "/img/524877796_18281941537284138_7194601866269685029_n..webp",
     "/img/528577300_18282637933284138_6024131309224852219_n..webp",
     "/img/528631979_18282710314284138_2035724994247197640_n..webp",
@@ -29,748 +30,707 @@ const portfolioImages = [
     "/img/584919632_18301346926284138_3623525760133837999_n.jpeg",
 ];
 
-// Featured projects for hero
-const featuredProjects = [
+// Project image IDs mapping
+const projectImageIds = [
+    'project_1', 'project_2', 'project_3', 'project_4', 'project_5', 'project_6',
+    'project_7', 'project_8', 'project_9', 'project_10', 'project_11', 'project_12'
+];
+
+interface Project {
+    id: number;
+    title: string;
+    category: string;
+    location: string;
+    year: string;
+    image: string;
+    size: "large" | "medium" | "small";
+    story: string;
+    process: string;
+    details: {
+        client: string;
+        service: string;
+        deliverables: string;
+    };
+}
+
+import { Counter } from '@/components/ui/Counter';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+
+// All projects with richly detailed content
+const getProjects = (images: string[]): Project[] => [
     {
         id: 1,
         title: "The Royal Wedding",
         category: "Wedding",
+        location: "Mumbai",
         year: "2024",
-        image: portfolioImages[0],
+        image: images[0],
+        size: "large",
+        story: "Set against the opulent backdrop of the Taj Palace, this wedding was a symphony of tradition and modernity. The couple, Priya and Rahul, desired a visual narrative that honored their deep cultural roots while embracing a contemporary, cinematic aesthetic. The vision was to capture not just the rituals, but the fleeting, unscripted moments of pure emotion—the tear in a father's eye, the shared laughter between sisters, and the quiet intimacy amidst the grandeur.",
+        process: "Our team of four operated with surgical precision over the three-day celebration. We employed a 'fly on the wall' documentary approach for the ceremonies, using long lenses to remain unobtrusive. For the couple portraits, we switched to dramatic off-camera lighting to create magazine-worthy editorials. Post-processing focused on rich, warm tones to reflect the royal gold and crimson palette of the decor.",
+        details: { client: "Priya & Rahul", service: "Full Wedding Coverage", deliverables: "300+ Edited Photos, Cinematic Film, Luxury Album" }
     },
     {
         id: 2,
-        title: "Fashion Forward",
-        category: "Editorial",
+        title: "Corporate Summit",
+        category: "Corporate",
+        location: "Bangalore",
         year: "2024",
-        image: portfolioImages[5],
+        image: images[3],
+        size: "small",
+        story: "The Annual TechFlow Summit brings together the brightest minds in AI and robotics. The organizers needed imagery that conveyed innovation, scale, and dynamic interaction. They wanted to move away from stiff corporate headshots and capture the vibrant energy of networking and collaboration that defines their brand.",
+        process: "We utilized high-shutter speeds and prime lenses to capture the fast-paced energy of the event in low light conditions. The challenge was to make a large conference hall feel intimate and engaging. We focused on dynamic angles, capturing speakers in passionate mid-gesture and attendees deep in conversation, creating a visual story of connection and progress.",
+        details: { client: "TechFlow Inc", service: "Event Photography", deliverables: "Event Highlights, Social Media edits, Speaker Portraits" }
     },
     {
         id: 3,
+        title: "Fashion Forward",
+        category: "Fashion",
+        location: "Delhi",
+        year: "2024",
+        image: images[5],
+        size: "medium",
+        story: "For Vogue India's 'Modern Heritage' spread, the concept was to juxtapose brutalist architecture with fluid, traditional textiles. The goal was to create a sharp visual contrast that creates tension and intrigue. We aimed for a mood that was edgy, stark, yet incredibly elegant.",
+        process: "Collaborating intimately with the stylist and art director, we scouted concrete structures that would serve as a canvas for the vibrant fabrics. We used harsh, direct sunlight to create strong shadows and geometric compositions. The direction for the model was to be strong and statuesque, mirroring the architecture around her.",
+        details: { client: "Vogue India", service: "Editorial Shoot", deliverables: "12-Page Spread, Cover Option, Digital Assets" }
+    },
+    {
+        id: 4,
+        title: "Family Legacy",
+        category: "Portrait",
+        location: "Pune",
+        year: "2023",
+        image: images[8],
+        size: "small",
+        story: "The Kapoor family wanted to document four generations coming together for a rare reunion at their ancestral home. The brief was simple: timeless, nostalgic, and authentic. They wanted images that would hang on their walls for decades, serving as a visual anchor for their family history.",
+        process: "We opted for a purely natural light setup, utilizing the soft, diffused morning light streaming through the courtyard. We guided the family into loose, natural groupings rather than rigid poses, encouraging them to interact, talk, and laugh. This allowed us to capture genuine expressions and the subtle, tender dynamics between the generations.",
+        details: { client: "The Kapoor Family", service: "Family Portrait Session", deliverables: "Framed Fine Art Prints, Digital Archive" }
+    },
+    {
+        id: 5,
         title: "New Beginnings",
         category: "Maternity",
+        location: "Goa",
         year: "2024",
-        image: portfolioImages[10],
+        image: images[10],
+        size: "large",
+        story: "Sarah and Mike wanted to celebrate the anticipation of their first child with a shoot that felt peaceful and connected to nature. The concept was 'Ethereal Dawn'—capturing the quiet, sacred moments of pregnancy against the vastness of the ocean.",
+        process: "We shot exclusively during the golden hour at a secluded beach. Using a shallow depth of field, we isolated the couple from the background, turning the ocean into a soft, painting-like wash of blues and golds. We directed them to focus on each other and the baby, creating a bubble of intimacy that felt private and profound.",
+        details: { client: "Sarah & Mike", service: "Maternity Session", deliverables: "30 Edited High-Res Photos, Online Gallery" }
+    },
+    {
+        id: 6,
+        title: "Luxury Launch",
+        category: "Corporate",
+        location: "Mumbai",
+        year: "2024",
+        image: images[1],
+        size: "medium",
+        story: "Luxe Co needed to unveil their new diamond line with an event that dripped with sophistication. The photography needed to be as premium as the jewelry itself—sharp, high-contrast, and glamorous. Every image had to reinforce the exclusivity of the brand.",
+        process: "We treated the event coverage almost like a product shoot. We brought in portable studio lighting to ensure the jewelry sparkled in every shot, even in the dim ambient light of the venue. We balanced candid social shots of VIP guests with meticulous detail shots of the product displays, ensuring a comprehensive coverage of the luxury experience.",
+        details: { client: "Luxe Co", service: "Launch Event Coverage", deliverables: "Product Shots, Press Release Images, Social Media Reels" }
+    },
+    {
+        id: 7,
+        title: "Intimate Celebration",
+        category: "Wedding",
+        location: "Maldives",
+        year: "2023",
+        image: images[2],
+        size: "small",
+        story: "Amit and Neha chose a private island for their vows, focusing on intimacy over spectacle. With only 20 guests, the atmosphere was incredibly personal. Our task was to capture the romance of the setting and the deep emotional connection of the small group without interrupting the flow.",
+        process: "In such a small setting, discretion is key. We shot predominantly with silent shutters and long focal lengths. The changing tropical light provided a stunning array of colors, which we optimized for in-camera to capture the vibrant turquoises and sunset oranges. We focused heavily on the raw, unposed reactions during the vows.",
+        details: { client: "Amit & Neha", service: "Destination Wedding", deliverables: "Wedding Album, Highlight Reel, curated Prints" }
+    },
+    {
+        id: 8,
+        title: "CEO Portraits",
+        category: "Portrait",
+        location: "Hyderabad",
+        year: "2024",
+        image: images[4],
+        size: "medium",
+        story: "The CEO of Innovate Corp needed a visual rebrand. He wanted to move away from the 'stiff suit' stereotype to a more modern, approachable, visionary leader persona. The goal was to create portraits that looked authoritative yet inviting.",
+        process: "We chose a modern architectural location with glass and steel lines to reflect the tech industry. We used a three-light setup to sculpt the face and separate the subject from the background, creating a polished, high-end commercial look. We coached him through expressions that conveyed confidence, warmth, and focus.",
+        details: { client: "Innovate Corp", service: "Executive Headshots", deliverables: "Digital Profiles, LinkedIn Header, Press Kit" }
+    },
+    {
+        id: 9,
+        title: "Monsoon Magic",
+        category: "Fashion",
+        location: "Kerala",
+        year: "2023",
+        image: images[6],
+        size: "large",
+        story: "FabIndia's monsoon collection required a campaign that celebrated the romance of the rains. The concept 'Windswept' aimed to capture the movement of the fabrics in the wind and the lush, saturated greens of the Kerala backwaters.",
+        process: "Shooting in the rain presents unique challenges. We protected our gear with custom housings and embraced the weather rather than fighting it. We used slower shutter speeds to blur the falling rain, turning it into a texture rather than a distraction. The soft, overcast light acted as a giant softbox, providing beautifully even illumination.",
+        details: { client: "FabIndia", service: "Campaign Shoot", deliverables: "Print Campaign Images, Lookbook, Digital Billboards" }
+    },
+    {
+        id: 10,
+        title: "Baby Steps",
+        category: "Maternity",
+        location: "Mumbai",
+        year: "2024",
+        image: images[11],
+        size: "small",
+        story: "The Sharma family wanted to freeze time during the first two weeks of their newborn's life. They requested a 'lifestyle' approach—capturing the baby in their natural home environment rather than in a studio with props.",
+        process: "Working with newborns requires immense patience and calm. We followed the baby's schedule, taking breaks for feeding and soothing. We used natural window light to keep the mood soft and organic. The focus was on the tiny details—the fingers, the toes, the eyelashes—and the tender interactions between the parents and their new miracle.",
+        details: { client: "The Sharmas", service: "In-Home Newborn Session", deliverables: "Birth Announcement Photos, Memory Box" }
+    },
+    {
+        id: 11,
+        title: "Heritage Wedding",
+        category: "Wedding",
+        location: "Chennai",
+        year: "2023",
+        image: images[7],
+        size: "medium",
+        story: "Karthik and Ananya's wedding was a vibrant tapestry of Tamil traditions. From the Kanjeevaram sarees to the intricate floral decorations, color was the protagonist. They wanted photos that felt alive, celebratory, and culturally authentic.",
+        process: "To do justice to the vibrant colors, we paid careful attention to white balance and exposure. We used a mix of wide-angle shots to capture the chaos and energy of the procession, and macro lenses for the jewelry and ritual details. We positioned ourselves to capture the perfect symmetry of the mandap interactions.",
+        details: { client: "Karthik & Ananya", service: "Traditional Wedding", deliverables: "Traditional Album, Coffee Table Book" }
+    },
+    {
+        id: 12,
+        title: "Startup Culture",
+        category: "Corporate",
+        location: "Bangalore",
+        year: "2024",
+        image: images[9],
+        size: "small",
+        story: "NextGen Tech is a startup defined by its flat hierarchy and collaborative spirit. They needed a library of images for their careers page that showed 'real people doing real work', avoiding all stock photography clichés.",
+        process: "We spent a full day embedded in their office, becoming part of the furniture. We photographed stand-up meetings, lunch breaks, and brainstorming sessions. We looked for genuine smiles and moments of breakthrough. The editing style was kept bright, airy, and clean to reflect their transparent modern culture.",
+        details: { client: "NextGen Tech", service: "Culture & Branding Shoot", deliverables: "Website Assets, Recruitment Deck Images" }
     },
 ];
 
-// All projects
-const projects = [
-    { id: 1, title: "The Royal Wedding", category: "Wedding", location: "Mumbai", image: portfolioImages[0], size: "large" },
-    { id: 2, title: "Corporate Summit", category: "Corporate", location: "Bangalore", image: portfolioImages[3], size: "small" },
-    { id: 3, title: "Fashion Forward", category: "Fashion", location: "Delhi", image: portfolioImages[5], size: "medium" },
-    { id: 4, title: "Family Legacy", category: "Portrait", location: "Pune", image: portfolioImages[8], size: "small" },
-    { id: 5, title: "New Beginnings", category: "Maternity", location: "Goa", image: portfolioImages[10], size: "large" },
-    { id: 6, title: "Luxury Launch", category: "Corporate", location: "Mumbai", image: portfolioImages[1], size: "medium" },
-    { id: 7, title: "Intimate Celebration", category: "Wedding", location: "Maldives", image: portfolioImages[2], size: "small" },
-    { id: 8, title: "CEO Portraits", category: "Portrait", location: "Hyderabad", image: portfolioImages[4], size: "medium" },
-    { id: 9, title: "Monsoon Magic", category: "Fashion", location: "Kerala", image: portfolioImages[6], size: "large" },
-    { id: 10, title: "Baby Steps", category: "Maternity", location: "Mumbai", image: portfolioImages[11], size: "small" },
-    { id: 11, title: "Heritage Wedding", category: "Wedding", location: "Chennai", image: portfolioImages[7], size: "medium" },
-    { id: 12, title: "Startup Culture", category: "Corporate", location: "Bangalore", image: portfolioImages[9], size: "small" },
-];
-
-// Categories
 const categories = ["All", "Wedding", "Portrait", "Corporate", "Fashion", "Maternity"];
+
+const ProjectCard = ({ project, index, onClick }: { project: Project, index: number, onClick: (p: Project) => void }) => {
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"]
+    });
+
+    // Parallax effect for internal image
+    const y = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+
+    return (
+        <motion.div
+            ref={ref}
+            style={{ opacity }}
+            initial={{ scale: 0.9 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="group relative cursor-pointer block"
+            onClick={() => onClick(project)}
+            whileHover={{ scale: 1.02, rotate: 1, zIndex: 10 }} // 3D Tilt hint
+        >
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-100 shadow-lg group-hover:shadow-2xl transition-shadow duration-500">
+                <motion.div style={{ y, scale: 1.1 }} className="relative w-full h-full">
+                    <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                    />
+                </motion.div>
+
+                {/* Minimalist Overlay with Staggered Text */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+
+                <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <motion.span
+                        initial={{ y: 20, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="font-sans text-[10px] uppercase tracking-widest text-white/80 mb-2"
+                    >
+                        {project.category}
+                    </motion.span>
+                    <motion.h3
+                        initial={{ y: 20, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="font-display text-[32px] md:text-[40px] leading-none text-white"
+                    >
+                        {project.title}
+                    </motion.h3>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
 
 export default function ProjectsPage() {
     const [activeFilter, setActiveFilter] = useState("All");
-    const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-    const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
-    const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const heroRef = useRef<HTMLElement>(null);
+    const [projects, setProjects] = useState<Project[]>([]);
     const [scrollY, setScrollY] = useState(0);
 
-    // Track scroll position
+    // Fetch projects from API
+    useEffect(() => {
+        fetch('/api/projects')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) setProjects(data);
+            })
+            .catch(err => console.error("Failed to fetch projects", err));
+    }, []);
+
+    // Scroll listener for parallax
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const { scrollYProgress } = useScroll();
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-    const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
-
-    // Track cursor for custom effect
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            setCursorPosition({ x: e.clientX, y: e.clientY });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
-
     const filteredProjects = activeFilter === "All"
         ? projects
         : projects.filter(p => p.category === activeFilter);
+
+    // Hide body scroll when modal is open
+    useEffect(() => {
+        if (selectedProject) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [selectedProject]);
 
     return (
         <div className="flex min-h-screen flex-col bg-white">
             <Navigation />
 
-            <main className="overflow-hidden">
+            <main>
                 {/* ═══════════════════════════════════════════════════════════════
-                    HERO - Immersive Fullscreen Showcase
-                ═══════════════════════════════════════════════════════════════ */}
-                {/* ═══════════════════════════════════════════════════════════════
-                    HERO - Immersive Fullscreen Showcase
+                    HERO - "OUR WORK" FLOATING POLAROIDS STYLE
                 ═══════════════════════════════════════════════════════════════ */}
                 <section
                     ref={heroRef}
-                    className="relative min-h-[90vh] bg-gradient-to-br from-white via-[#FAFAFA] to-[#F5F5F5] overflow-hidden flex items-center justify-center"
+                    className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white"
                 >
-                    {/* Background Grid */}
-                    <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                            backgroundImage: `
-                                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-                                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px)
-                            `,
-                            backgroundSize: '80px 80px',
-                            transform: `translateY(${scrollY * 0.1}px)`,
-                        }}
-                    />
+                    {/* 1. Animated Background Grid & Cameras */}
+                    <div className="absolute inset-0 z-0 opacity-50">
+                        <AnimatedCameraBackground />
+                    </div>
 
-                    {/* Glowing Orbs */}
-                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {/* 2. Red Glowing Orbs (Breathing Animation) */}
+                    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                         <motion.div
-                            className="absolute w-[600px] h-[600px] rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%)',
-                            }}
-                            animate={{
-                                x: [0, 100, -50, 80, 0],
-                                y: [0, -80, 60, -40, 0],
-                            }}
-                            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                            initial={{ top: '10%', left: '20%' }}
+                            className="absolute -top-[10%] -left-[10%] w-[600px] h-[600px] rounded-full blur-[100px] opacity-40"
+                            style={{ background: 'radial-gradient(circle, rgba(220, 38, 38, 0.4) 0%, rgba(220, 38, 38, 0.1) 60%, transparent 80%)' }}
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                         />
                         <motion.div
-                            className="absolute w-40 h-40 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 40%, transparent 70%)',
-                                boxShadow: '0 0 80px 30px rgba(0,0,0,0.08)',
-                            }}
-                            animate={{
-                                x: [0, 120, 60, -60, 0],
-                                y: [0, -100, 50, 120, 0],
-                                scale: [1, 1.3, 0.8, 1.1, 1],
-                            }}
-                            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-                            initial={{ top: '20%', left: '5%' }}
+                            className="absolute top-[60%] -right-[5%] w-[400px] h-[400px] rounded-full blur-[80px] opacity-30"
+                            style={{ background: 'radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.1) 60%, transparent 80%)' }}
+                            animate={{ scale: [1, 1.2, 1], x: [0, -30, 0] }}
+                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                         />
                         <motion.div
-                            className="absolute w-24 h-24 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.08) 40%, transparent 70%)',
-                                boxShadow: '0 0 50px 20px rgba(0,0,0,0.06)',
-                            }}
-                            animate={{
-                                x: [0, -80, 100, -50, 0],
-                                y: [0, 80, -60, 100, 0],
-                                scale: [1, 0.7, 1.4, 0.9, 1],
-                            }}
-                            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-                            initial={{ top: '60%', right: '10%' }}
-                        />
-                        <motion.div
-                            className="absolute w-16 h-16 rounded-full hidden md:block"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.1) 40%, transparent 70%)',
-                                boxShadow: '0 0 35px 12px rgba(0,0,0,0.08)',
-                            }}
-                            animate={{
-                                x: [0, 60, -40, 80, 0],
-                                y: [0, -60, 40, -80, 0],
-                                scale: [1, 1.5, 0.6, 1.2, 1],
-                                opacity: [0.8, 1, 0.5, 1, 0.8],
-                            }}
-                            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-                            initial={{ top: '40%', left: '50%' }}
-                        />
-                        <motion.div
-                            className="absolute w-64 h-64 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 50%, transparent 70%)',
-                                boxShadow: '0 0 60px 20px rgba(239, 68, 68, 0.08)',
-                            }}
-                            animate={{
-                                x: [0, -100, 50, -50, 0],
-                                y: [0, 150, 50, -100, 0],
-                                scale: [1, 1.2, 0.9, 1.1, 1],
-                            }}
-                            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-                            initial={{ top: '30%', right: '25%' }}
+                            className="absolute bottom-[10%] left-[20%] w-[300px] h-[300px] rounded-full blur-[60px] opacity-30"
+                            style={{ background: 'radial-gradient(circle, rgba(185, 28, 28, 0.4) 0%, rgba(185, 28, 28, 0.1) 60%, transparent 80%)' }}
+                            animate={{ y: [0, -40, 0], opacity: [0.3, 0.6, 0.3] }}
+                            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                         />
                     </div>
 
-                    {/* Animated Camera Background */}
-                    <AnimatedCameraBackground opacity={0.1} />
-
-                    {/* Content */}
-                    <div className="relative h-full flex flex-col items-center justify-center px-6 z-10 pt-20">
-                        {/* Eyebrow */}
-                        <motion.div
-                            className="flex items-center gap-3 mb-8"
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 30 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                        >
-                            <span className="w-12 h-[1px] bg-black/20" />
-                            <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-black/60">
-                                Portfolio
-                            </span>
-                            <span className="w-12 h-[1px] bg-black/20" />
-                        </motion.div>
-
-                        {/* Main Title */}
-                        <div className="overflow-hidden mb-8 text-center relative max-w-4xl">
-                            <h1 className="font-display font-light leading-[0.95] tracking-[-0.03em] text-black">
-                                {["Our", "Work"].map((word, index) => (
-                                    <motion.span
-                                        key={word}
-                                        className="inline-block mx-4"
-                                        initial={{ opacity: 0, y: 80 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.8, delay: 0.3 + (index * 0.1) }}
-                                        style={{ fontSize: 'clamp(60px, 12vw, 140px)' }}
-                                    >
-                                        {word}
-                                    </motion.span>
-                                ))}
-                            </h1>
-
-                            {/* Floating Category Tags - Visual Fillers */}
-                            <motion.div
-                                className="absolute -top-12 -left-8 md:left-0 hidden md:flex items-center gap-2 bg-white shadow-lg px-4 py-2 rounded-full border border-black/5 rotate-[-6deg]"
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 1, type: "spring" }}
-                            >
-                                <span className="w-2 h-2 rounded-full bg-orange-400" />
-                                <span className="font-sans text-[10px] font-bold uppercase tracking-wider">Weddings</span>
-                            </motion.div>
-
-                            <motion.div
-                                className="absolute -bottom-4 -right-4 md:right-10 hidden md:flex items-center gap-2 bg-white shadow-lg px-4 py-2 rounded-full border border-black/5 rotate-[6deg]"
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 1.2, type: "spring" }}
-                            >
-                                <span className="w-2 h-2 rounded-full bg-blue-400" />
-                                <span className="font-sans text-[10px] font-bold uppercase tracking-wider">Editorials</span>
-                            </motion.div>
+                    {/* 3. Floating Polaroids (Parallax Scroll) */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -100, rotate: -10 }}
+                        animate={{ opacity: 1, x: 0, rotate: -6 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="absolute left-[5%] md:left-[10%] top-[20%] w-[180px] md:w-[280px] z-10 hidden md:block"
+                        style={{
+                            transform: `translateY(${scrollY * -0.2}px) rotate(-6deg)`,
+                        }}
+                    >
+                        <div className="bg-white p-3 pb-8 shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                            <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
+                                <Image
+                                    src={projects[0]?.image || defaultPortfolioImages[0]}
+                                    alt="Featured Work"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <p className="font-serif text-[12px] text-gray-400 mt-2 text-center italic">Editorial '24</p>
                         </div>
+                    </motion.div>
 
-                        {/* Subtitle */}
-                        <motion.p
-                            className="font-sans text-[16px] md:text-[20px] text-black/60 text-center max-w-[600px] mb-12 leading-relaxed"
+                    <motion.div
+                        initial={{ opacity: 0, x: 100, rotate: 10 }}
+                        animate={{ opacity: 1, x: 0, rotate: 6 }}
+                        transition={{ duration: 1, delay: 0.4 }}
+                        className="absolute right-[5%] md:right-[10%] bottom-[20%] w-[180px] md:w-[280px] z-10 hidden md:block"
+                        style={{
+                            transform: `translateY(${scrollY * 0.2}px) rotate(6deg)`,
+                        }}
+                    >
+                        <div className="bg-white p-3 pb-8 shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                            <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
+                                <Image
+                                    src={projects[5]?.image || defaultPortfolioImages[5]}
+                                    alt="Featured Work"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <p className="font-serif text-[12px] text-gray-400 mt-2 text-center italic">Portraits</p>
+                        </div>
+                    </motion.div>
+
+                    {/* 4. Central Content (Staggered Entry) */}
+                    <div className="relative z-20 text-center max-w-4xl px-6 mt-[-50px]">
+                        <motion.span
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                            transition={{ duration: 0.8, delay: 0.6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="inline-block border-t border-b border-black/10 py-2 px-6 mb-8 font-sans text-[11px] uppercase tracking-[0.3em] text-black/40"
+                        >
+                            Portfolio
+                        </motion.span>
+
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.8 }}
+                            className="font-display font-light tracking-[-0.03em] text-[80px] md:text-[140px] leading-[0.9] mb-8 bg-clip-text text-transparent bg-gradient-to-r from-black via-black to-red-400"
+                        >
+                            {'Our Work'.split('').map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 + i * 0.05 }}
+                                    className="inline-block" // Ensure inline-block for transform
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </motion.h1>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8 }}
+                            className="font-sans text-[16px] md:text-[20px] leading-relaxed text-black/50 max-w-xl mx-auto"
                         >
                             A curated selection of moments we've had the privilege to capture, showcasing artistry and emotion in every frame.
                         </motion.p>
+                    </div>
 
-                        {/* Interactive Elements Row */}
-                        <div className="flex flex-col md:flex-row items-center gap-12 mb-16">
-                            {/* Stats */}
-                            <motion.div
-                                className="flex items-center gap-8 md:gap-16 px-8 py-6 bg-white rounded-2xl shadow-sm border border-black/5"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                                transition={{ duration: 0.8, delay: 0.8 }}
-                            >
-                                {[
-                                    { number: "200+", label: "Projects" },
-                                    { number: "7", label: "Years" },
-                                    { number: "15", label: "Awards" },
-                                ].map((stat) => (
-                                    <div key={stat.label} className="text-center group cursor-default">
-                                        <p className="font-display text-[28px] md:text-[36px] font-light text-black group-hover:scale-110 transition-transform duration-300">{stat.number}</p>
-                                        <p className="font-sans text-[9px] uppercase tracking-wider text-black/40">{stat.label}</p>
-                                    </div>
-                                ))}
-                            </motion.div>
+                    {/* 5. Stats Cards - Floating (Spring Entry + Counters) */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1, type: "spring", stiffness: 100 }}
+                        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-[90%] md:w-auto"
+                    >
+                        <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-4 md:p-8 flex items-center justify-between gap-8 md:gap-16 border border-black/5 hover:scale-105 transition-transform duration-300">
+                            <div className="text-center px-4">
+                                <span className="block font-display text-[32px] md:text-[40px] leading-none mb-1">
+                                    <Counter from={0} to={200} />+
+                                </span>
+                                <span className="block font-sans text-[10px] uppercase font-bold text-black/30">Projects</span>
+                            </div>
+                            <div className="w-[1px] h-10 bg-black/5" />
+                            <div className="text-center px-4">
+                                <span className="block font-display text-[32px] md:text-[40px] leading-none mb-1">
+                                    <Counter from={0} to={7} />
+                                </span>
+                                <span className="block font-sans text-[10px] uppercase font-bold text-black/30">Years</span>
+                            </div>
+                            <div className="w-[1px] h-10 bg-black/5" />
+                            <div className="text-center px-4">
+                                <span className="block font-display text-[32px] md:text-[40px] leading-none mb-1">
+                                    <Counter from={0} to={15} />
+                                </span>
+                                <span className="block font-sans text-[10px] uppercase font-bold text-black/30">Awards</span>
+                            </div>
 
-                            {/* Latest Project Preview */}
-                            <motion.div
-                                className="hidden lg:flex items-center gap-4 pl-6 border-l border-black/10"
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 1.4 }}
-                            >
+                            {/* Latest Upload Mini Badge */}
+                            <div className="hidden md:flex items-center gap-4 pl-8 border-l border-black/5">
                                 <div className="text-right">
-                                    <span className="block font-sans text-[9px] uppercase tracking-wider text-black/40 mb-1">Latest Upload</span>
-                                    <span className="block font-display text-lg">The Royal Wedding</span>
+                                    <span className="block font-sans text-[9px] uppercase font-bold text-black/30 mb-1">Latest Upload</span>
+                                    <span className="block font-serif text-[14px] italic">The Royal Wedding</span>
                                 </div>
-                                <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-white shadow-md rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <Image src={portfolioImages[0]} alt="Latest" fill className="object-cover" />
+                                <div className="w-12 h-12 rounded-lg overflow-hidden relative bg-gray-100 border border-white shadow-sm">
+                                    <Image src={projects[0]?.image || defaultPortfolioImages[0]} alt="Latest" fill className="object-cover" />
                                 </div>
-                            </motion.div>
-                        </div>
-
-                        {/* Trusted By Marquee */}
-                        <motion.div
-                            className="absolute bottom-24 left-0 right-0 overflow-hidden opacity-30 pointer-events-none"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.3 }}
-                            transition={{ delay: 1.5 }}
-                        >
-                            <div className="flex justify-center gap-12 text-[10px] uppercase tracking-[0.2em] font-sans font-bold text-black/40">
-                                <span>Vogue India</span>
-                                <span>•</span>
-                                <span>Harper's Bazaar</span>
-                                <span>•</span>
-                                <span>Elle Magazine</span>
-                                <span>•</span>
-                                <span>Architectural Digest</span>
                             </div>
-                        </motion.div>
-                    </div>
-
-                    {/* Left Decorative Image Card */}
-                    <motion.div
-                        className="absolute left-[5%] top-[30%] hidden xl:block z-0"
-                        initial={{ opacity: 0, x: -50, rotate: -10 }}
-                        animate={{ opacity: 1, x: 0, rotate: -6 }}
-                        transition={{ delay: 1, duration: 1 }}
-                    >
-                        <div className="relative w-[200px] h-[260px] bg-white p-2 shadow-2xl rounded-sm transform hover:rotate-0 hover:scale-105 transition-all duration-500 cursor-pointer">
-                            <div className="relative w-full h-full overflow-hidden bg-gray-100">
-                                <Image src={portfolioImages[5]} alt="Deco 1" fill className="object-cover" />
-                            </div>
-                            <div className="absolute -bottom-8 left-0 font-handwriting text-black/60 rotate-6 transform translate-y-2 font-display italic">Editorial '24</div>
                         </div>
-                    </motion.div>
-
-                    {/* Right Decorative Image Card */}
-                    <motion.div
-                        className="absolute right-[5%] bottom-[30%] hidden xl:block z-0"
-                        initial={{ opacity: 0, x: 50, rotate: 10 }}
-                        animate={{ opacity: 1, x: 0, rotate: 6 }}
-                        transition={{ delay: 1.2, duration: 1 }}
-                    >
-                        <div className="relative w-[180px] h-[240px] bg-white p-2 shadow-2xl rounded-sm transform hover:rotate-0 hover:scale-105 transition-all duration-500 cursor-pointer">
-                            <div className="relative w-full h-full overflow-hidden bg-gray-100">
-                                <Image src={portfolioImages[2]} alt="Deco 2" fill className="object-cover" />
-                            </div>
-                            <div className="absolute -top-8 right-0 font-handwriting text-black/60 -rotate-3 transform -translate-y-2 font-display italic">Portraits</div>
-                        </div>
-                    </motion.div>
-
-                    {/* Scroll Prompt */}
-                    <motion.div
-                        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.2 }}
-                    >
-                        <motion.div
-                            className="flex flex-col items-center gap-2"
-                            animate={{ y: [0, 8, 0] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            <span className="font-sans text-[10px] uppercase tracking-widest text-black/40">Scroll</span>
-                            <svg className="w-5 h-5 text-black/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                            </svg>
-                        </motion.div>
                     </motion.div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════════════
-                    FEATURED HORIZONTAL SCROLL
+                    FILTER BAR (Magnetic)
                 ═══════════════════════════════════════════════════════════════ */}
-                <section className="py-20 md:py-32 bg-white">
-                    <div className="container mx-auto px-6 md:px-10 max-w-[1400px] mb-12">
-                        <motion.div
-                            className="flex items-end justify-between"
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <div>
-                                <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-black/40 mb-4 block">Highlights</span>
-                                <h2 className="font-display text-[36px] md:text-[48px] font-light text-black">
-                                    Featured <span className="italic text-black/40">Projects</span>
-                                </h2>
-                            </div>
-                            <Link
-                                href="#all-projects"
-                                className="hidden md:flex items-center gap-2 font-sans text-[12px] uppercase tracking-wider text-black/60 hover:text-black transition-colors"
-                            >
-                                View All
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </Link>
-                        </motion.div>
-                    </div>
-
-                    {/* Horizontal Scroll Container */}
-                    <div className="overflow-x-auto hide-scrollbar">
-                        <div className="flex gap-6 px-6 md:px-10 pb-8" style={{ width: 'max-content' }}>
-                            {featuredProjects.map((project, index) => (
-                                <motion.div
-                                    key={project.id}
-                                    className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[3/4] md:aspect-[4/3] overflow-hidden cursor-pointer group"
-                                    initial={{ opacity: 0, x: 100 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.8, delay: index * 0.15 }}
-                                    onClick={() => setSelectedProject(projects.find(p => p.id === project.id) || null)}
+                <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/5 py-4">
+                    <div className="container mx-auto px-6 md:px-10 flex overflow-x-auto no-scrollbar justify-center gap-8">
+                        {categories.map((cat) => (
+                            <MagneticButton key={cat}>
+                                <button
+                                    onClick={() => setActiveFilter(cat)}
+                                    className={`whitespace-nowrap font-sans text-[11px] uppercase tracking-[0.2em] transition-colors relative pb-2 px-2 ${activeFilter === cat ? 'text-black font-bold' : 'text-black/40 hover:text-black'
+                                        }`}
                                 >
-                                    <Image
-                                        src={project.image}
-                                        alt={project.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                                    {/* Content Overlay */}
-                                    <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                                    {cat}
+                                    {activeFilter === cat && (
                                         <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.3 }}
-                                        >
-                                            <span className="font-sans text-[11px] uppercase tracking-wider text-white/60 mb-2 block">
-                                                {project.category} · {project.year}
-                                            </span>
-                                            <h3 className="font-display text-[28px] md:text-[40px] font-light text-white leading-tight mb-4">
-                                                {project.title}
-                                            </h3>
-                                            <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                                                <span className="font-sans text-[11px] uppercase tracking-wider text-white">View Project</span>
-                                                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                </svg>
-                                            </div>
-                                        </motion.div>
-                                    </div>
+                                            layoutId="activeTab"
+                                            className="absolute bottom-0 left-0 right-0 h-[2px] bg-black"
+                                        />
+                                    )}
+                                </button>
+                            </MagneticButton>
+                        ))}
+                    </div>
+                </div>                {/* ═══════════════════════════════════════════════════════════════
+                    PROJECTS TITLE
+                ═══════════════════════════════════════════════════════════════ */}
+                <section className="pt-24 pb-8 bg-white relative z-10">
+                    <div className="container mx-auto px-4 md:px-10 max-w-[1500px] flex justify-between items-center relative">
+                        <motion.h2
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="font-display text-[24px] md:text-[48px] text-black leading-none uppercase"
+                        >
+                            Creative <span className="text-black/20">Projects</span>
+                        </motion.h2>
 
-                                    {/* Project Number */}
-                                    <div className="absolute top-8 right-8 md:top-12 md:right-12">
-                                        <span className="font-display text-[60px] md:text-[80px] font-light text-white/10 leading-none">
-                                            0{index + 1}
-                                        </span>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                        {/* Unique Rotating Stamp Animation to fill space */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="hidden md:flex items-center justify-center relative w-32 h-32"
+                        >
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                className="w-full h-full"
+                            >
+                                <svg viewBox="0 0 100 100" className="w-full h-full text-black/20">
+                                    <defs>
+                                        <path id="circle-path-stamp" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                                    </defs>
+                                    <text fontSize="11" fontWeight="bold" letterSpacing="2">
+                                        <textPath href="#circle-path-stamp" className="fill-current uppercase">
+                                            Ambient Frames • Curated Portfolio •
+                                        </textPath>
+                                    </text>
+                                </svg>
+                            </motion.div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
+                            </div>
+                        </motion.div>
                     </div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════════════
-                    FILTER BAR
+                    PROJECTS STAGGERED GRID (MATCHING SKETCH)
                 ═══════════════════════════════════════════════════════════════ */}
-                <section id="all-projects" className="py-8 bg-[#FAFAFA] border-y border-black/5 sticky top-0 z-40">
-                    <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-                        <div className="flex items-center justify-between">
-                            <div className="flex gap-2 overflow-x-auto hide-scrollbar py-2">
-                                {categories.map((cat) => (
-                                    <motion.button
-                                        key={cat}
-                                        className={`relative px-5 py-2.5 font-sans text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors ${activeFilter === cat ? 'text-white' : 'text-black/60 hover:text-black'
-                                            }`}
-                                        onClick={() => setActiveFilter(cat)}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        {activeFilter === cat && (
-                                            <motion.div
-                                                className="absolute inset-0 bg-black rounded-sm"
-                                                layoutId="activeFilter"
-                                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                            />
-                                        )}
-                                        <span className="relative z-10">{cat}</span>
-                                    </motion.button>
+                <section className="pb-32 bg-white min-h-screen relative overflow-hidden">
+                    {/* Background Animation: Cameras */}
+                    <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+                        <AnimatedCameraBackground />
+                    </div>
+
+                    {/* Background Animation: Red Floating Glow */}
+                    <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full z-0 pointer-events-none">
+                        <motion.div
+                            className="w-full h-full rounded-full blur-[100px] opacity-40"
+                            style={{ background: 'radial-gradient(circle, rgba(220, 38, 38, 0.3) 0%, rgba(220, 38, 38, 0.05) 70%, transparent 100%)' }}
+                            animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0.3, 0.5, 0.3],
+                                x: [0, -50, 0]
+                            }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                    </div>
+                    <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full z-0 pointer-events-none">
+                        <motion.div
+                            className="w-full h-full rounded-full blur-[100px] opacity-30"
+                            style={{ background: 'radial-gradient(circle, rgba(220, 38, 38, 0.25) 0%, rgba(220, 38, 38, 0.05) 70%, transparent 100%)' }}
+                            animate={{
+                                scale: [1, 1.1, 1],
+                                y: [0, -30, 0]
+                            }}
+                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        />
+                    </div>
+
+                    <div className="container mx-auto px-4 md:px-10 max-w-[1500px] relative z-10">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+
+                            {/* Column 1 */}
+                            <div className="flex flex-col gap-12">
+                                {filteredProjects.filter((_, i) => i % 3 === 0).map((project, index) => (
+                                    <ProjectCard key={project.id} project={project} index={index} onClick={setSelectedProject} />
                                 ))}
                             </div>
-                            <span className="font-sans text-[11px] text-black/40 hidden md:block">
-                                {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'}
-                            </span>
+
+                            {/* Column 2 - Staggered Down */}
+                            <div className="flex flex-col gap-12 md:pt-24">
+                                {filteredProjects.filter((_, i) => i % 3 === 1).map((project, index) => (
+                                    <ProjectCard key={project.id} project={project} index={index} onClick={setSelectedProject} />
+                                ))}
+                            </div>
+
+                            {/* Column 3 */}
+                            <div className="flex flex-col gap-12">
+                                {filteredProjects.filter((_, i) => i % 3 === 2).map((project, index) => (
+                                    <ProjectCard key={project.id} project={project} index={index} onClick={setSelectedProject} />
+                                ))}
+                            </div>
+
                         </div>
-                    </div>
-                </section>
-
-                {/* ═══════════════════════════════════════════════════════════════
-                    BENTO GRID GALLERY
-                ═══════════════════════════════════════════════════════════════ */}
-                <section className="py-12 md:py-20 bg-[#FAFAFA]">
-                    <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeFilter}
-                                className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[250px]"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{ duration: 0.4 }}
-                            >
-                                {filteredProjects.map((project, index) => {
-                                    // Dynamic grid spans for bento layout
-                                    const isLarge = project.size === "large";
-                                    const isMedium = project.size === "medium";
-
-                                    return (
-                                        <motion.div
-                                            key={project.id}
-                                            className={`relative overflow-hidden cursor-pointer group bg-black ${isLarge ? 'col-span-2 row-span-2' :
-                                                isMedium ? 'col-span-2 md:col-span-1 row-span-1 md:row-span-2' :
-                                                    'col-span-1 row-span-1'
-                                                }`}
-                                            initial={{ opacity: 0, y: 40 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true, margin: "-50px" }}
-                                            transition={{ duration: 0.6, delay: index * 0.05 }}
-                                            onMouseEnter={() => setHoveredProject(project.id)}
-                                            onMouseLeave={() => setHoveredProject(null)}
-                                            onClick={() => setSelectedProject(project)}
-                                            whileHover={{ scale: 0.98 }}
-                                        >
-                                            <Image
-                                                src={project.image}
-                                                alt={project.title}
-                                                fill
-                                                className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:opacity-80"
-                                            />
-
-                                            {/* Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                                            {/* Content */}
-                                            <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                                                <span className="font-sans text-[10px] uppercase tracking-wider text-white/60 mb-1">
-                                                    {project.category}
-                                                </span>
-                                                <h3 className={`font-display font-light text-white leading-tight ${isLarge ? 'text-[24px] md:text-[32px]' : 'text-[16px] md:text-[20px]'
-                                                    }`}>
-                                                    {project.title}
-                                                </h3>
-                                                <p className="font-sans text-[11px] text-white/50 mt-1">{project.location}</p>
-                                            </div>
-
-                                            {/* Corner Accent */}
-                                            <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                                <div className="absolute top-4 right-4 w-3 h-3 border-t border-r border-white/60" />
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-                </section>
-
-                {/* ═══════════════════════════════════════════════════════════════
-                    MARQUEE SECTION
-                ═══════════════════════════════════════════════════════════════ */}
-                <section className="py-16 bg-black overflow-hidden">
-                    <motion.div
-                        className="flex whitespace-nowrap"
-                        animate={{ x: [0, -1920] }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                    >
-                        {[...Array(4)].map((_, i) => (
-                            <div key={i} className="flex items-center gap-16 px-8">
-                                <span className="font-display text-[80px] md:text-[120px] font-light text-white/20">Wedding</span>
-                                <span className="w-4 h-4 bg-white/30 rotate-45" />
-                                <span className="font-display text-[80px] md:text-[120px] font-light text-white/20">Portrait</span>
-                                <span className="w-4 h-4 bg-white/30 rotate-45" />
-                                <span className="font-display text-[80px] md:text-[120px] font-light text-white/20">Fashion</span>
-                                <span className="w-4 h-4 bg-white/30 rotate-45" />
-                            </div>
-                        ))}
-                    </motion.div>
-                </section>
-
-                {/* ═══════════════════════════════════════════════════════════════
-                    CTA SECTION
-                ═══════════════════════════════════════════════════════════════ */}
-                <section className="py-24 md:py-40 bg-white relative overflow-hidden">
-                    {/* Background Pattern */}
-                    <div className="absolute inset-0 pointer-events-none opacity-[0.02]">
-                        <div className="absolute inset-0" style={{
-                            backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)',
-                            backgroundSize: '40px 40px',
-                        }} />
-                    </div>
-
-                    <AnimatedCameraBackground opacity={0.1} />
-
-                    <div className="container mx-auto px-6 md:px-10 max-w-[900px] relative z-10">
-                        <motion.div
-                            className="text-center"
-                            initial={{ opacity: 0, y: 60 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <motion.div
-                                className="inline-flex items-center gap-3 mb-8"
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ delay: 0.2 }}
-                            >
-                                <span className="w-12 h-[1px] bg-black/20" />
-                                <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-black/40">Let's Create</span>
-                                <span className="w-12 h-[1px] bg-black/20" />
-                            </motion.div>
-
-                            <h2 className="font-display text-[40px] md:text-[60px] lg:text-[80px] font-light text-black leading-[1] mb-8">
-                                Have a project<br />
-                                <span className="italic text-black/40">in mind?</span>
-                            </h2>
-
-                            <p className="font-sans text-[16px] text-black/50 max-w-[450px] mx-auto mb-12 leading-relaxed">
-                                We'd love to hear about your vision. Let's create something extraordinary together.
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <Link
-                                    href="/contact"
-                                    className="group relative bg-black text-white px-12 py-5 font-sans font-bold text-[12px] tracking-[0.15em] uppercase overflow-hidden"
-                                >
-                                    <span className="relative z-10">Start a Project</span>
-                                    <motion.div
-                                        className="absolute inset-0 bg-gradient-to-r from-[#333] to-[#555]"
-                                        initial={{ x: '-100%' }}
-                                        whileHover={{ x: 0 }}
-                                        transition={{ duration: 0.4 }}
-                                    />
-                                </Link>
-                                <Link
-                                    href="/services"
-                                    className="flex items-center gap-3 px-6 py-5 font-sans font-bold text-[12px] tracking-[0.15em] uppercase text-black/60 hover:text-black transition-colors"
-                                >
-                                    <span>View Services</span>
-                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </Link>
-                            </div>
-                        </motion.div>
                     </div>
                 </section>
             </main>
 
             {/* ═══════════════════════════════════════════════════════════════
-                LIGHTBOX MODAL
+                 DETAILED PROJECT REVIEW - SPLIT SCREEN MODAL (WITH FIXED CLOSE)
             ═══════════════════════════════════════════════════════════════ */}
             <AnimatePresence>
                 {selectedProject && (
-                    <>
-                        <motion.div
-                            className="fixed inset-0 bg-black/95 z-50"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                    <motion.div
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+                        initial={{ opacity: 0, y: '100%' }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: '100%' }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    >
+                        {/* FIXED CLOSE BUTTON FOR VISIBILITY */}
+                        <button
                             onClick={() => setSelectedProject(null)}
-                        />
-                        <motion.div
-                            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 pointer-events-none"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            className="fixed top-6 right-6 z-[110] w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform cursor-pointer border border-black/5"
                         >
-                            <motion.div
-                                className="relative w-full max-w-[1100px] bg-white pointer-events-auto overflow-hidden"
-                                initial={{ scale: 0.8, y: 100 }}
-                                animate={{ scale: 1, y: 0 }}
-                                exit={{ scale: 0.9, y: 50, opacity: 0 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                            >
-                                {/* Close Button */}
-                                <button
-                                    className="absolute top-4 right-4 z-20 w-12 h-12 bg-black text-white flex items-center justify-center hover:bg-black/80 transition-colors"
-                                    onClick={() => setSelectedProject(null)}
-                                >
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
+                            <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
 
-                                <div className="grid grid-cols-1 lg:grid-cols-5">
-                                    {/* Image */}
-                                    <div className="lg:col-span-3 relative aspect-[4/3] lg:aspect-auto lg:h-[70vh]">
-                                        <Image
-                                            src={selectedProject.image}
-                                            alt={selectedProject.title}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
+                        <div className="flex flex-col lg:flex-row w-full h-full">
 
-                                    {/* Details */}
-                                    <div className="lg:col-span-2 p-8 md:p-12 flex flex-col justify-center bg-white">
-                                        <motion.div
-                                            initial={{ opacity: 0, x: 30 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.2 }}
-                                        >
-                                            <span className="font-sans text-[10px] uppercase tracking-wider text-black/40 mb-3 block">
-                                                {selectedProject.category}
+                            {/* LEFT: IMMERSIVE IMAGE */}
+                            <div className="relative w-full lg:w-[55%] h-[40vh] lg:h-full bg-black">
+                                <motion.div
+                                    className="absolute inset-0 z-10 bg-gradient-to-t from-black/30 to-transparent"
+                                />
+                                <Image
+                                    src={selectedProject.image}
+                                    alt={selectedProject.title}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            </div>
+
+                            {/* RIGHT: PROJECT CONTENT */}
+                            <div className="w-full lg:w-[45%] h-[60vh] lg:h-full overflow-y-auto bg-white custom-scrollbar">
+                                <div className="p-8 md:p-16 pt-20">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3 }}
+                                    >
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <span className="w-2 h-2 bg-black rounded-full" />
+                                            <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-black/50">
+                                                Project Case Study
                                             </span>
-                                            <h2 className="font-display text-[32px] md:text-[42px] font-light text-black leading-tight mb-4">
-                                                {selectedProject.title}
-                                            </h2>
-                                            <p className="font-sans text-[14px] text-black/50 leading-relaxed mb-8">
-                                                A beautifully captured moment showcasing the essence of {selectedProject.category.toLowerCase()} photography with our signature artistic approach.
-                                            </p>
+                                        </div>
 
-                                            <div className="grid grid-cols-2 gap-6 mb-8 pb-8 border-b border-black/10">
-                                                <div>
-                                                    <span className="font-sans text-[10px] uppercase tracking-wider text-black/40 block mb-1">Location</span>
-                                                    <span className="font-sans text-[14px] text-black">{selectedProject.location}</span>
-                                                </div>
-                                                <div>
-                                                    <span className="font-sans text-[10px] uppercase tracking-wider text-black/40 block mb-1">Category</span>
-                                                    <span className="font-sans text-[14px] text-black">{selectedProject.category}</span>
-                                                </div>
+                                        <h2 className="font-display text-[48px] md:text-[64px] leading-[1] text-black mb-6">
+                                            {selectedProject.title}
+                                        </h2>
+
+                                        <div className="flex flex-wrap gap-x-8 gap-y-4 mb-12 border-b border-black/10 pb-8">
+                                            <div>
+                                                <span className="block font-sans text-[10px] uppercase font-bold text-black/40 mb-1">Client</span>
+                                                <span className="font-sans text-[14px]">{selectedProject.details.client}</span>
                                             </div>
+                                            <div>
+                                                <span className="block font-sans text-[10px] uppercase font-bold text-black/40 mb-1">Service</span>
+                                                <span className="font-sans text-[14px]">{selectedProject.details.service}</span>
+                                            </div>
+                                            <div>
+                                                <span className="block font-sans text-[10px] uppercase font-bold text-black/40 mb-1">Year</span>
+                                                <span className="font-sans text-[14px]">{selectedProject.year}</span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
 
-                                            <Link
-                                                href="/contact"
-                                                className="inline-flex items-center gap-3 bg-black text-white px-8 py-4 font-sans font-bold text-[11px] uppercase tracking-wider hover:bg-black/80 transition-colors"
-                                            >
-                                                <span>Book Similar Session</span>
-                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                </svg>
-                                            </Link>
-                                        </motion.div>
-                                    </div>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.4 }}
+                                        className="space-y-12"
+                                    >
+                                        <section>
+                                            <h3 className="font-sans text-[12px] uppercase font-bold tracking-widest text-black mb-4">
+                                                The Vision
+                                            </h3>
+                                            <p className="font-serif text-[18px] leading-relaxed text-black/80">
+                                                {selectedProject.story}
+                                            </p>
+                                        </section>
+
+                                        <section>
+                                            <h3 className="font-sans text-[12px] uppercase font-bold tracking-widest text-black mb-4">
+                                                Our Process
+                                            </h3>
+                                            <p className="font-sans text-[15px] leading-loose text-black/60">
+                                                {selectedProject.process}
+                                            </p>
+                                        </section>
+
+                                        <section className="bg-gray-50 p-6 rounded-lg">
+                                            <h3 className="font-sans text-[12px] uppercase font-bold tracking-widest text-black mb-2">
+                                                Deliverables
+                                            </h3>
+                                            <p className="font-sans text-[14px] text-black/70">
+                                                {selectedProject.details.deliverables}
+                                            </p>
+                                        </section>
+                                    </motion.div>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.5 }}
+                                        className="mt-16 pt-8 border-t border-black/10"
+                                    >
+                                        <Link
+                                            href="/contact"
+                                            className="group flex items-center justify-between w-full p-6 bg-black text-white hover:bg-black/90 transition-colors rounded-sm"
+                                        >
+                                            <span className="font-sans text-[12px] uppercase tracking-[0.2em] font-bold">Start Your Project</span>
+                                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </Link>
+                                    </motion.div>
                                 </div>
-                            </motion.div>
-                        </motion.div>
-                    </>
+                            </div>
+                        </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
 
             <Footer />
-
-            {/* Custom Styles */}
-            <style jsx global>{`
-                .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </div>
     );
 }

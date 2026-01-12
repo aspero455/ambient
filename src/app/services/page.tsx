@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/sections/Navigation';
 import Footer from '@/components/sections/Footer';
 import AnimatedCameraBackground from '@/components/ui/AnimatedCameraBackground';
@@ -13,24 +13,40 @@ import AnimatedCameraBackground from '@/components/ui/AnimatedCameraBackground';
  * Comprehensive services showcase with beautiful animations
  */
 
-// Portfolio images for services
-const portfolioImages = [
-    "/img/524877796_18281941537284138_7194601866269685029_n..webp",
-    "/img/528577300_18282637933284138_6024131309224852219_n..webp",
-    "/img/528631979_18282710314284138_2035724994247197640_n..webp",
-    "/img/529672310_18282710362284138_7894353990389373612_n..webp",
-    "/img/530361918_18283380247284138_133094580325100578_n..webp",
-    "/img/531822595_18283640836284138_2008306935621772497_n..webp",
-    "/img/532239093_18283639591284138_1240929492701407161_n..webp",
-    "/img/532501606_18283429012284138_3710883859252304802_n..webp",
-    "/img/532508474_18283639534284138_7821912398438107581_n..webp",
-    "/img/566414945_18292643884284138_3751019525464458517_n.jpeg",
-    "/img/567395566_18292643899284138_984878061390000747_n.jpeg",
-    "/img/584919632_18301346926284138_3623525760133837999_n.jpeg",
+// Default portfolio images (synced with generated services images)
+const defaultPortfolioImages = [
+    "/img/services/wedding.png",
+    "/img/services/portrait.png",
+    "/img/services/corporate.png",
+    "/img/services/fashion.png",
+    "/img/services/family.png",
+    "/img/services/maternity.png",
 ];
 
-// Services data
-const services = [
+// Service image IDs mapping
+const serviceImageIds = [
+    'services_wedding',
+    'services_portrait',
+    'services_corporate',
+    'services_fashion',
+    'services_family',
+    'services_maternity'
+];
+
+interface Service {
+    id: string;
+    number: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    longDescription: string;
+    image: string;
+    features: string[];
+    stats: { shoots: string; satisfaction: string; awards: string };
+}
+
+// Services data (images will be dynamically assigned)
+const getServices = (images: string[]): Service[] => [
     {
         id: 'wedding',
         number: "01",
@@ -38,7 +54,7 @@ const services = [
         subtitle: "Capturing Your Forever Moments",
         description: "Your wedding day is a once-in-a-lifetime celebration of love. We capture every stolen glance, joyful tear, and heartfelt embrace with artistry and precision.",
         longDescription: "From the nervous excitement of getting ready to the last dance of the night, we document every precious moment of your special day. Our unobtrusive style ensures authentic, emotional photographs that tell your unique love story.",
-        image: portfolioImages[0],
+        image: images[0],
         features: [
             "Full-day coverage (up to 12 hours)",
             "Second photographer included",
@@ -56,7 +72,7 @@ const services = [
         subtitle: "Reveal Your True Self",
         description: "Professional portraits that capture your personality, confidence, and unique essence. Perfect for professionals, artists, and anyone seeking stunning personal imagery.",
         longDescription: "Whether it's for your LinkedIn profile, personal branding, or simply to celebrate who you are, our portrait sessions are designed to make you look and feel your absolute best. We create comfortable environments where your authentic self shines through.",
-        image: portfolioImages[1],
+        image: images[1],
         features: [
             "1-2 hour session",
             "Multiple outfit changes",
@@ -74,7 +90,7 @@ const services = [
         subtitle: "Elevate Your Brand",
         description: "Professional coverage of business events, conferences, product launches, and corporate milestones that capture the energy and success of your organization.",
         longDescription: "From intimate board meetings to large-scale conferences, we understand the importance of capturing key moments that tell your corporate story. Our discrete approach ensures natural, unposed shots while still delivering stunning professional imagery.",
-        image: portfolioImages[2],
+        image: images[2],
         features: [
             "Flexible duration coverage",
             "Multiple photographers",
@@ -92,7 +108,7 @@ const services = [
         subtitle: "Art Meets Fashion",
         description: "High-fashion photography with creative direction that brings your vision to life. From lookbooks to magazine editorials, we create stunning visual narratives.",
         longDescription: "Our fashion photography combines technical excellence with creative vision. We work closely with designers, stylists, and models to create compelling imagery that captures the essence of your brand and tells your fashion story.",
-        image: portfolioImages[3],
+        image: images[3],
         features: [
             "Creative direction included",
             "Studio or location shoots",
@@ -110,7 +126,7 @@ const services = [
         subtitle: "Cherish Every Generation",
         description: "Beautiful family portraits that capture the love, connection, and unique dynamics of your family. From newborns to grandparents, we celebrate every chapter.",
         longDescription: "Family is everything, and these moments deserve to be preserved beautifully. Our relaxed, fun approach ensures natural smiles and genuine interactions, creating timeless portraits that you'll treasure for generations.",
-        image: portfolioImages[4],
+        image: images[4],
         features: [
             "2-hour family session",
             "Multiple family groupings",
@@ -128,7 +144,7 @@ const services = [
         subtitle: "New Beginnings",
         description: "Celebrate the miracle of new life with stunning maternity and newborn photography that captures this precious time with elegance and tenderness.",
         longDescription: "From the beautiful glow of pregnancy to the delicate features of your newborn, we create timeless images that celebrate this incredible journey. Our patient, gentle approach ensures a comfortable experience for mom and baby.",
-        image: portfolioImages[5],
+        image: images[5],
         features: [
             "Maternity session (outdoor/studio)",
             "Newborn session (in-home)",
@@ -141,58 +157,28 @@ const services = [
     }
 ];
 
-// Pricing packages
-const packages = [
+// Testimonials Data
+const testimonials = [
     {
-        name: "Essential",
-        price: "₹25,000",
-        duration: "4 Hours",
-        description: "Perfect for intimate events and portrait sessions",
-        features: [
-            "4 hours of coverage",
-            "1 photographer",
-            "100+ edited photos",
-            "Online gallery",
-            "Digital downloads",
-            "2-week delivery"
-        ],
-        popular: false
+        id: 1,
+        name: "Sarah & Michael",
+        role: "Wedding Clients",
+        text: "Ambient Frames didn't just take photos; they captured the very soul of our wedding. Looking at the album feels like reliving the most magical day of our lives. Pure artistry.",
+        image: "/img/services/wedding.png" // Using service image as placeholder or we could find others
     },
     {
-        name: "Premium",
-        price: "₹50,000",
-        duration: "8 Hours",
-        description: "Our most popular package for weddings and events",
-        features: [
-            "8 hours of coverage",
-            "2 photographers",
-            "300+ edited photos",
-            "Online gallery",
-            "Premium photo album",
-            "1-week delivery",
-            "Highlight slideshow",
-            "Print releases"
-        ],
-        popular: true
+        id: 2,
+        name: "David Chen",
+        role: "CEO, TechFlow",
+        text: "The level of professionalism and the quality of the corporate headshots were outstanding. They managed to make our entire team look confident and approachable. Highly recommended.",
+        image: "/img/services/corporate.png"
     },
     {
-        name: "Luxury",
-        price: "₹1,00,000",
-        duration: "Full Day",
-        description: "Complete coverage for the most special occasions",
-        features: [
-            "Full-day coverage (12+ hours)",
-            "3 photographers",
-            "500+ edited photos",
-            "Premium online gallery",
-            "Luxury photo album",
-            "Drone coverage",
-            "Same-day preview",
-            "3-day delivery",
-            "Engagement session included",
-            "Canvas prints"
-        ],
-        popular: false
+        id: 3,
+        name: "Elena Rodriguez",
+        role: "Fashion Designer",
+        text: "I possess a very specific vision for my collections, and Ambient Frames exceeded it. Their understanding of lighting and composition is world-class. A true collaborative partner.",
+        image: "/img/services/fashion.png"
     }
 ];
 
@@ -208,7 +194,7 @@ const faqs = [
     },
     {
         q: "How long until we receive our photos?",
-        a: "Delivery times vary by package: Essential (2 weeks), Premium (1 week), Luxury (3 days). Weddings typically take 2-4 weeks for the complete gallery."
+        a: "Delivery times vary by package and season. Weddings typically take 3-4 weeks for the complete gallery, while portrait sessions are often ready within 7-10 days."
     },
     {
         q: "Can we request specific shots or poses?",
@@ -226,16 +212,38 @@ const faqs = [
 
 export default function ServicesPage() {
     const [scrollY, setScrollY] = useState(0);
-    const [activeService, setActiveService] = useState<string | null>(null);
+    const [activeService, setActiveService] = useState<Service | null>(null); // For Modal
     const [activeFaq, setActiveFaq] = useState<number | null>(null);
     const [loadedSections, setLoadedSections] = useState<Set<string>>(new Set());
+    const [serviceImages, setServiceImages] = useState<string[]>(defaultPortfolioImages);
 
     const heroRef = useRef<HTMLElement>(null);
     const servicesRef = useRef<HTMLElement>(null);
-    const pricingRef = useRef<HTMLElement>(null);
+    const testimonialsRef = useRef<HTMLElement>(null);
     const processRef = useRef<HTMLElement>(null);
     const faqRef = useRef<HTMLElement>(null);
     const ctaRef = useRef<HTMLElement>(null);
+
+    // Fetch dynamic images from Cloudinary config (matches the newly updated JSON)
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const res = await fetch('/api/images?section=services');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.images) {
+                        const newImages = serviceImageIds.map((id, index) =>
+                            data.images[id]?.url || defaultPortfolioImages[index]
+                        );
+                        setServiceImages(newImages);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch service images:', error);
+            }
+        };
+        fetchImages();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -243,11 +251,23 @@ export default function ServicesPage() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (activeService) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [activeService]);
+
+    // Get services with dynamic images
+    const services = getServices(serviceImages);
+
     useEffect(() => {
         const sections = [
             { ref: heroRef, id: 'hero' },
             { ref: servicesRef, id: 'services' },
-            { ref: pricingRef, id: 'pricing' },
+            { ref: testimonialsRef, id: 'testimonials' },
             { ref: processRef, id: 'process' },
             { ref: faqRef, id: 'faq' },
             { ref: ctaRef, id: 'cta' },
@@ -289,24 +309,22 @@ export default function ServicesPage() {
                     ref={heroRef}
                     className="relative min-h-[90vh] bg-white overflow-hidden flex items-center"
                 >
-                    {/* ═══════════════════════════════════════════════════════════════
-                        BACKGROUND LAYERS (Z-ORDER: BOTTOM TO TOP)
-                    ═══════════════════════════════════════════════════════════════ */}
-
+                    {/* ... (Hero Background content preserved) ... */}
                     {/* 1. Base Gradient Layer (Last Layer) - Blue on Right */}
+                    {/* Increased Blue Glow Background - 40% Visibility */}
                     <div className="absolute right-0 top-0 w-1/2 h-full pointer-events-none overflow-hidden hidden lg:block">
                         <motion.div
                             className="absolute inset-0"
                             style={{
-                                background: 'radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 100%)',
-                                filter: 'blur(80px)',
+                                background: 'radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.2) 50%, transparent 100%)',
+                                filter: 'blur(100px)',
                             }}
                             animate={{
-                                opacity: [0.4, 0.7, 0.4],
-                                scale: [1, 1.1, 1],
+                                opacity: [0.6, 1, 0.6],
+                                scale: [1, 1.15, 1],
                             }}
                             transition={{
-                                duration: 10,
+                                duration: 8,
                                 repeat: Infinity,
                                 ease: "easeInOut"
                             }}
@@ -315,7 +333,6 @@ export default function ServicesPage() {
 
                     {/* 2. Glowing Circles / Orbs */}
                     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                        {/* Blue Glowing Orb - Right Side */}
                         <motion.div
                             className="absolute w-[500px] h-[500px] rounded-full"
                             style={{
@@ -330,8 +347,6 @@ export default function ServicesPage() {
                             transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
                             initial={{ top: '10%', right: '5%' }}
                         />
-
-                        {/* Traditional Black Orb - Left Side */}
                         <motion.div
                             className="absolute w-40 h-40 rounded-full"
                             style={{
@@ -363,10 +378,40 @@ export default function ServicesPage() {
                             transform: `translateY(${scrollY * 0.1}px)`,
                         }}
                     />
-                    <div
-                        className="absolute top-[15%] right-[20%] w-[350px] h-[350px] rounded-full border border-black/5 hidden lg:block"
+                    {/* Animated Circular "Book a Session" Button */}
+                    <Link
+                        href="/contact"
+                        className="absolute top-[20%] right-[15%] w-[220px] h-[220px] rounded-full border-2 border-black/20 hidden lg:flex items-center justify-center group cursor-pointer z-20"
                         style={{ transform: `translateY(${scrollY * 0.05}px)` }}
-                    />
+                    >
+                        {/* Animated Background Fill */}
+                        <motion.div
+                            className="absolute inset-0 rounded-full bg-blue-600"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{
+                                scale: [0, 1, 1, 0],
+                                opacity: [0, 0.15, 0.15, 0],
+                            }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                                times: [0, 0.3, 0.7, 1],
+                            }}
+                        />
+                        {/* Hover Background */}
+                        <div className="absolute inset-0 rounded-full bg-black scale-0 group-hover:scale-100 transition-transform duration-500 ease-out" />
+                        {/* Text */}
+                        <span className="relative z-10 font-sans font-bold text-[13px] tracking-[0.2em] uppercase text-black group-hover:text-white transition-colors duration-300">
+                            Book a Session
+                        </span>
+                        {/* Pulse Ring Animation */}
+                        <motion.div
+                            className="absolute inset-[-10px] rounded-full border border-blue-500/30"
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0, 0.3] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                        />
+                    </Link>
 
                     <div className="container mx-auto px-6 md:px-10 max-w-[1400px] relative z-10 pt-20">
                         <div className="max-w-[900px]">
@@ -410,29 +455,29 @@ export default function ServicesPage() {
                                 and technical excellence to every frame we capture.
                             </motion.p>
 
-                            {/* CTA Buttons */}
+                            {/* CTA Button - Only Explore Services (Book Session moved to circle) */}
                             <motion.div
                                 className="flex flex-col sm:flex-row gap-4"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.5 }}
                             >
-                                <Link
-                                    href="/contact"
-                                    className="group relative bg-black text-white px-8 py-4 font-sans font-bold text-[12px] tracking-[0.15em] uppercase overflow-hidden text-center"
-                                >
-                                    <span className="relative z-10">Book a Session</span>
-                                    <div className="absolute inset-0 bg-gradient-to-r from-[#333] to-[#555] transform translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-                                </Link>
                                 <a
                                     href="#services"
-                                    className="group flex items-center justify-center gap-3 px-6 py-4 font-sans font-bold text-[12px] tracking-[0.15em] uppercase text-black border-2 border-black/20 hover:border-black transition-colors"
+                                    className="group flex items-center justify-center gap-3 px-8 py-4 font-sans font-bold text-[12px] tracking-[0.15em] uppercase text-black border-2 border-black/20 hover:border-black hover:bg-black hover:text-white transition-all duration-300"
                                 >
                                     <span>Explore Services</span>
                                     <svg className="w-4 h-4 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                                     </svg>
                                 </a>
+                                {/* Mobile Only: Book a Session Link */}
+                                <Link
+                                    href="/contact"
+                                    className="lg:hidden group relative bg-black text-white px-8 py-4 font-sans font-bold text-[12px] tracking-[0.15em] uppercase overflow-hidden text-center"
+                                >
+                                    <span className="relative z-10">Book a Session</span>
+                                </Link>
                             </motion.div>
                         </div>
 
@@ -471,11 +516,37 @@ export default function ServicesPage() {
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════════════
-                    SECTION 2: SERVICES SHOWCASE
+                    SECTION 2: SERVICES SHOWCASE (With Modal Interaction)
                 ═══════════════════════════════════════════════════════════════ */}
-                <section ref={servicesRef} id="services" className="py-20 md:py-32 bg-white relative">
-                    <div className="container mx-auto px-6 md:px-10 max-w-[1400px]">
-                        {/* Section Header */}
+                <section ref={servicesRef} id="services" className="py-20 md:py-32 bg-white relative overflow-hidden">
+                    {/* Animated Blue Glow Background */}
+                    <motion.div
+                        className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)',
+                            filter: 'blur(80px)',
+                        }}
+                        animate={{
+                            x: [0, 50, -30, 0],
+                            y: [0, -30, 50, 0],
+                            scale: [1, 1.2, 0.9, 1],
+                        }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                        className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.08) 40%, transparent 70%)',
+                            filter: 'blur(100px)',
+                        }}
+                        animate={{
+                            x: [0, -40, 60, 0],
+                            y: [0, 40, -20, 0],
+                            scale: [1, 0.9, 1.15, 1],
+                        }}
+                        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <div className="container mx-auto px-6 md:px-10 max-w-[1400px] relative z-10">
                         <motion.div
                             className="text-center mb-20"
                             initial={{ opacity: 0, y: 40 }}
@@ -496,17 +567,16 @@ export default function ServicesPage() {
                             />
                         </motion.div>
 
-                        {/* Services Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {services.map((service, index) => (
                                 <motion.div
                                     key={service.id}
-                                    className="group relative bg-white border border-black/10 overflow-hidden cursor-pointer"
+                                    className="group relative bg-white border border-black/10 overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-500"
                                     initial={{ opacity: 0, y: 60 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.7, delay: index * 0.1 }}
                                     viewport={{ once: true }}
-                                    onClick={() => setActiveService(activeService === service.id ? null : service.id)}
+                                    onClick={() => setActiveService(service)}
                                 >
                                     {/* Image */}
                                     <div className="relative aspect-[4/3] overflow-hidden">
@@ -514,76 +584,69 @@ export default function ServicesPage() {
                                             src={service.image}
                                             alt={service.title}
                                             fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="object-cover transition-transform duration-[1.2s] group-hover:scale-110"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-                                        {/* Number Badge */}
-                                        <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+                                        <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center z-10">
                                             <span className="font-display text-[18px] font-light text-black">{service.number}</span>
                                         </div>
+                                        <div className="absolute bottom-4 right-4 bg-white text-black px-4 py-2 font-sans text-[10px] uppercase font-bold tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                                            View Details
+                                        </div>
                                     </div>
-
-                                    {/* Content */}
-                                    <div className="p-6">
-                                        <h3 className="font-display text-[24px] font-light text-black mb-2">{service.title}</h3>
+                                    <div className="p-8">
+                                        <h3 className="font-display text-[26px] font-light text-black mb-2 group-hover:text-black/70 transition-colors">{service.title}</h3>
                                         <p className="font-sans text-[11px] uppercase tracking-wider text-black/40 mb-4">{service.subtitle}</p>
-                                        <p className="font-sans text-[14px] text-black/60 leading-relaxed mb-4">{service.description}</p>
-
-                                        {/* Stats */}
-                                        <div className="flex gap-6 pt-4 border-t border-black/10">
-                                            <div>
-                                                <p className="font-display text-[20px] font-light text-black">{service.stats.shoots}</p>
-                                                <p className="font-sans text-[9px] uppercase tracking-wider text-black/40">Shoots</p>
-                                            </div>
-                                            <div>
-                                                <p className="font-display text-[20px] font-light text-black">{service.stats.satisfaction}</p>
-                                                <p className="font-sans text-[9px] uppercase tracking-wider text-black/40">Satisfaction</p>
-                                            </div>
-                                        </div>
-
-                                        {/* Expand indicator */}
-                                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-black/10">
-                                            <span className="font-sans text-[11px] uppercase tracking-wider text-black/40">View Details</span>
-                                            <div className={`w-8 h-8 rounded-full border border-black/20 flex items-center justify-center transition-transform duration-300 ${activeService === service.id ? 'rotate-180' : ''}`}>
-                                                <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </div>
-                                        </div>
+                                        <p className="font-sans text-[14px] text-black/60 leading-relaxed line-clamp-2">{service.description}</p>
                                     </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
 
-                                    {/* Expanded Details */}
-                                    <div
-                                        className="overflow-hidden transition-all duration-500"
-                                        style={{
-                                            maxHeight: activeService === service.id ? '400px' : '0px',
-                                            opacity: activeService === service.id ? 1 : 0,
-                                        }}
-                                    >
-                                        <div className="p-6 pt-0 border-t border-black/10">
-                                            <p className="font-sans text-[14px] text-black/60 leading-relaxed mb-6">{service.longDescription}</p>
-                                            <h4 className="font-sans text-[12px] uppercase tracking-wider text-black/40 mb-3">What's Included</h4>
-                                            <div className="grid grid-cols-2 gap-2 mb-6">
-                                                {service.features.map((feature, i) => (
-                                                    <div key={i} className="flex items-center gap-2">
-                                                        <svg className="w-4 h-4 text-black/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span className="font-sans text-[12px] text-black/60">{feature}</span>
-                                                    </div>
-                                                ))}
+                {/* ═══════════════════════════════════════════════════════════════
+                    SECTION 3: TESTIMONIALS (NEW SECTION)
+                ═══════════════════════════════════════════════════════════════ */}
+                <section ref={testimonialsRef} className="py-24 bg-[#FAF9F6] relative overflow-hidden">
+                    <div className="container mx-auto px-6 md:px-10 max-w-[1400px] relative z-10">
+                        <motion.div
+                            className="text-center mb-16"
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                        >
+                            <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-black/50 mb-4 block">Client Love</span>
+                            <h2 className="font-display text-[42px] md:text-[56px] font-light text-black leading-tight">
+                                Cherished <span className="italic text-black/40">Words</span>
+                            </h2>
+                        </motion.div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {testimonials.map((t, i) => (
+                                <motion.div
+                                    key={t.id}
+                                    className="bg-white p-10 border border-black/5 shadow-sm relative group hover:-translate-y-2 transition-transform duration-500"
+                                    initial={{ opacity: 0, y: 40 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: i * 0.2 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <div className="absolute -top-4 left-10 text-[80px] leading-none font-serif text-black/5 group-hover:text-black/10 transition-colors">"</div>
+                                    <p className="font-serif text-[18px] text-black/70 italic leading-relaxed mb-8 relative z-10">
+                                        {t.text}
+                                    </p>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-full overflow-hidden relative bg-gray-100">
+                                            {/* Using service images as generic avatar placeholders for now or letters */}
+                                            <div className="w-full h-full bg-black/5 flex items-center justify-center text-black/40 font-display text-xl">
+                                                {t.name[0]}
                                             </div>
-                                            <Link
-                                                href="/contact"
-                                                className="inline-flex items-center gap-2 font-sans font-bold text-[11px] uppercase tracking-wider text-black hover:text-black/60 transition-colors"
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                <span>Book This Service</span>
-                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                </svg>
-                                            </Link>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-sans font-bold text-[14px] text-black">{t.name}</h4>
+                                            <p className="font-sans text-[10px] uppercase tracking-wider text-black/40">{t.role}</p>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -593,159 +656,94 @@ export default function ServicesPage() {
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════════════
-                    SECTION 3: PRICING PACKAGES
+                    SECTION 4: OUR PROCESS (Dark Mode)
                 ═══════════════════════════════════════════════════════════════ */}
-                <section ref={pricingRef} className="py-20 md:py-32 bg-[#0A0A0A] text-white relative overflow-hidden">
-                    {/* Background Elements */}
-                    <div className="absolute inset-0 pointer-events-none">
-                        <div
-                            className="absolute inset-0 opacity-[0.03]"
-                            style={{
-                                backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-                                backgroundSize: '50px 50px',
-                            }}
-                        />
+                <section ref={processRef} className="py-24 md:py-32 bg-[#050505] text-white relative overflow-hidden">
+                    {/* ... Process content preserved ... */}
+                    {/* Animated Background Mesh */}
+                    <div className="absolute inset-0 opacity-20 pointer-events-none">
+                        <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-gradient-to-r from-blue-900/40 to-transparent blur-[120px]" />
+                        <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-gradient-to-l from-purple-900/40 to-transparent blur-[120px]" />
                     </div>
 
                     <div className="container mx-auto px-6 md:px-10 max-w-[1200px] relative z-10">
                         {/* Section Header */}
                         <motion.div
-                            className="text-center mb-20"
+                            className="text-center mb-24"
                             initial={{ opacity: 0, y: 40 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
                         >
-                            <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-white/40 mb-4 block">Investment</span>
-                            <h2 className="font-display text-[42px] md:text-[56px] font-light text-white leading-tight mb-4">
-                                Pricing <span className="italic text-white/40">Packages</span>
+                            <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-white/40 mb-4 block">How It Works</span>
+                            <h2 className="font-display text-[48px] md:text-[64px] font-light text-white leading-tight mb-6">
+                                Our Creative <span className="italic text-white/30">Journey</span>
                             </h2>
-                            <p className="font-sans text-[16px] text-white/50 max-w-[500px] mx-auto">
-                                Transparent pricing for exceptional quality. Every package can be customized to your needs.
+                            <p className="font-sans text-[16px] text-white/50 max-w-[500px] mx-auto leading-relaxed">
+                                A seamless experience designed to capture your unique story with precision and care.
                             </p>
                         </motion.div>
 
-                        {/* Pricing Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {packages.map((pkg, index) => (
+                        {/* Process Steps - Horizontal Flow */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                            {/* Connector Line (Desktop) */}
+                            <div className="absolute top-12 left-0 w-full h-[1px] bg-white/10 hidden md:block">
                                 <motion.div
-                                    key={pkg.name}
-                                    className={`relative p-8 border ${pkg.popular ? 'bg-white text-black border-white' : 'bg-transparent border-white/10'}`}
-                                    initial={{ opacity: 0, y: 60 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.7, delay: index * 0.15 }}
+                                    className="h-full bg-white/30"
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: '100%' }}
+                                    transition={{ duration: 1.5, ease: "easeInOut" }}
                                     viewport={{ once: true }}
-                                >
-                                    {pkg.popular && (
-                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-1 font-sans text-[10px] uppercase tracking-wider">
-                                            Most Popular
-                                        </div>
-                                    )}
+                                />
+                            </div>
 
-                                    <div className="text-center mb-8">
-                                        <h3 className={`font-display text-[28px] font-light mb-2 ${pkg.popular ? 'text-black' : 'text-white'}`}>{pkg.name}</h3>
-                                        <p className={`font-sans text-[12px] uppercase tracking-wider mb-4 ${pkg.popular ? 'text-black/40' : 'text-white/40'}`}>{pkg.duration}</p>
-                                        <p className={`font-display text-[48px] font-light ${pkg.popular ? 'text-black' : 'text-white'}`}>{pkg.price}</p>
-                                        <p className={`font-sans text-[13px] mt-2 ${pkg.popular ? 'text-black/60' : 'text-white/50'}`}>{pkg.description}</p>
-                                    </div>
-
-                                    <div className="space-y-3 mb-8">
-                                        {pkg.features.map((feature, i) => (
-                                            <div key={i} className="flex items-center gap-3">
-                                                <svg className={`w-4 h-4 ${pkg.popular ? 'text-black' : 'text-white/60'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                <span className={`font-sans text-[13px] ${pkg.popular ? 'text-black/70' : 'text-white/60'}`}>{feature}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <Link
-                                        href="/contact"
-                                        className={`block text-center py-4 font-sans font-bold text-[12px] uppercase tracking-wider transition-all ${pkg.popular
-                                            ? 'bg-black text-white hover:bg-black/80'
-                                            : 'border border-white/30 text-white hover:bg-white hover:text-black'
-                                            }`}
-                                    >
-                                        Get Started
-                                    </Link>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        <motion.p
-                            className="text-center mt-12 font-sans text-[14px] text-white/40"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.8, delay: 0.5 }}
-                            viewport={{ once: true }}
-                        >
-                            Custom packages available for unique requirements. <Link href="/contact" className="underline hover:text-white transition-colors">Contact us</Link> to discuss.
-                        </motion.p>
-                    </div>
-                </section>
-
-                {/* ═══════════════════════════════════════════════════════════════
-                    SECTION 4: OUR PROCESS
-                ═══════════════════════════════════════════════════════════════ */}
-                <section ref={processRef} className="py-20 md:py-32 bg-gradient-to-b from-[#F5F5F5] to-white relative overflow-hidden">
-                    {/* Background Decorations */}
-                    <div className="absolute inset-0 pointer-events-none">
-                        <motion.div
-                            className="absolute top-[20%] right-[10%] w-64 h-64 border border-black/5 rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                        />
-                    </div>
-
-                    <div className="container mx-auto px-6 md:px-10 max-w-[1200px] relative z-10">
-                        {/* Section Header */}
-                        <motion.div
-                            className="text-center mb-20"
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                        >
-                            <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-black/50 mb-4 block">How It Works</span>
-                            <h2 className="font-display text-[42px] md:text-[56px] font-light text-black leading-tight mb-4">
-                                Our <span className="italic text-black/40">Process</span>
-                            </h2>
-                            <motion.div
-                                className="w-20 h-[2px] bg-black/20 mx-auto"
-                                initial={{ scaleX: 0 }}
-                                whileInView={{ scaleX: 1 }}
-                                transition={{ duration: 0.8, delay: 0.3 }}
-                                viewport={{ once: true }}
-                            />
-                        </motion.div>
-
-                        {/* Process Steps */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {[
-                                { step: "01", title: "Consultation", desc: "We discuss your vision, preferences, and requirements to understand exactly what you're looking for.", icon: "💬" },
-                                { step: "02", title: "Planning", desc: "Together we plan locations, timing, and creative direction to ensure a smooth shoot day.", icon: "📋" },
-                                { step: "03", title: "Capture", desc: "The magic happens! We capture your moments with expertise, creativity, and passion.", icon: "📸" },
-                                { step: "04", title: "Delivery", desc: "Receive your beautifully edited images through our premium online gallery.", icon: "✨" },
+                                {
+                                    step: "01", title: "Connect", desc: "Share your vision. We listen to understand exactly what you need.", icon: (
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                                    )
+                                },
+                                {
+                                    step: "02", title: "Plan", desc: "We strategize locations, lighting, and mood boards for the perfect shoot.", icon: (
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                                    )
+                                },
+                                {
+                                    step: "03", title: "Create", desc: "The magic happens. We guide you through poses and capture raw emotion.", icon: (
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                    )
+                                },
+                                {
+                                    step: "04", title: "Deliver", desc: "Receive your curated gallery of high-resolution, edited memories.", icon: (
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                    )
+                                },
                             ].map((item, i) => (
                                 <motion.div
                                     key={i}
-                                    className="group relative p-8 bg-white border border-black/10 rounded-lg shadow-sm hover:shadow-xl transition-all duration-500"
-                                    initial={{ opacity: 0, y: 60 }}
+                                    className="relative group pt-12 md:pt-16"
+                                    initial={{ opacity: 0, y: 40 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.7, delay: i * 0.15 }}
+                                    transition={{ duration: 0.6, delay: i * 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="relative mb-6">
-                                        <span className="font-display text-[72px] font-light text-black/10 leading-none block">
-                                            {item.step}
-                                        </span>
-                                        <span className="absolute top-2 right-0 text-3xl">
-                                            {item.icon}
-                                        </span>
+                                    {/* Node on Line */}
+                                    <div className="absolute top-12 left-0 md:left-1/2 -translate-x-0 md:-translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#050505] border border-white/30 rounded-full z-10 group-hover:border-white group-hover:scale-125 transition-all duration-300 hidden md:block" />
+
+                                    <div className="p-8 bg-white/5 border border-white/5 backdrop-blur-sm rounded-xl hover:bg-white/10 transition-all duration-500 hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+                                        <div className="flex justify-between items-start mb-6">
+                                            <span className="font-display text-[42px] leading-none text-white/10 font-light group-hover:text-white/20 transition-colors">
+                                                {item.step}
+                                            </span>
+                                            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 group-hover:text-white group-hover:bg-white/20 transition-all">
+                                                {item.icon}
+                                            </div>
+                                        </div>
+                                        <h4 className="font-display text-[20px] text-white mb-3 tracking-wide">{item.title}</h4>
+                                        <p className="font-sans text-[13px] text-white/50 leading-relaxed group-hover:text-white/70 transition-colors">
+                                            {item.desc}
+                                        </p>
                                     </div>
-                                    <h4 className="font-sans font-bold text-[18px] text-black mb-3">{item.title}</h4>
-                                    <p className="font-sans text-[14px] text-black/60 leading-relaxed">{item.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
@@ -756,8 +754,8 @@ export default function ServicesPage() {
                     SECTION 5: FAQ
                 ═══════════════════════════════════════════════════════════════ */}
                 <section ref={faqRef} className="py-20 md:py-32 bg-white relative">
+                    {/* ... FAQ content preserved ... */}
                     <div className="container mx-auto px-6 md:px-10 max-w-[900px]">
-                        {/* Section Header */}
                         <motion.div
                             className="text-center mb-16"
                             initial={{ opacity: 0, y: 40 }}
@@ -771,7 +769,6 @@ export default function ServicesPage() {
                             </h2>
                         </motion.div>
 
-                        {/* FAQ Items */}
                         <div className="space-y-4">
                             {faqs.map((faq, index) => (
                                 <motion.div
@@ -812,7 +809,7 @@ export default function ServicesPage() {
                     SECTION 6: CTA
                 ═══════════════════════════════════════════════════════════════ */}
                 <section ref={ctaRef} className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
-                    {/* Background Animation */}
+                    {/* ... CTA content preserved ... */}
                     <div className="absolute inset-0 pointer-events-none">
                         <motion.div
                             className="absolute w-96 h-96 rounded-full"
@@ -862,6 +859,102 @@ export default function ServicesPage() {
                     </div>
                 </section>
             </main>
+
+            {/* ═══════════════════════════════════════════════════════════════
+                 SERVICE DETAIL MODAL
+            ═══════════════════════════════════════════════════════════════ */}
+            <AnimatePresence>
+                {activeService && (
+                    <motion.div
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        {/* Modal Content */}
+                        <motion.div
+                            className="bg-white w-full max-w-[1000px] h-[90vh] md:h-auto md:max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative"
+                            initial={{ scale: 0.9, y: 30 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 30 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        >
+                            {/* Close Button from Step 517 */}
+                            <button
+                                onClick={() => setActiveService(null)}
+                                className="absolute top-5 right-5 z-50 w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300 border border-black/10"
+                                aria-label="Close modal"
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
+                            {/* Left: Image */}
+                            <div className="w-full md:w-[45%] h-[30vh] md:h-auto relative bg-black">
+                                <Image
+                                    src={activeService.image}
+                                    alt={activeService.title}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                                <div className="absolute bottom-6 left-6 text-white md:hidden">
+                                    <h3 className="font-display text-2xl">{activeService.title}</h3>
+                                </div>
+                            </div>
+
+                            {/* Right: Content */}
+                            <div className="w-full md:w-[55%] p-6 md:p-12 overflow-y-auto bg-white custom-scrollbar">
+                                <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/40 mb-2 block">{activeService.subtitle}</span>
+                                <h2 className="font-display text-[32px] md:text-[42px] leading-[1.1] text-black mb-6 hidden md:block">{activeService.title}</h2>
+
+                                <p className="font-serif text-[18px] leading-relaxed text-black/70 mb-8">
+                                    {activeService.longDescription}
+                                </p>
+
+                                {/* Stats Grid */}
+                                <div className="grid grid-cols-3 gap-4 py-6 border-y border-black/10 mb-8">
+                                    <div className="text-center">
+                                        <span className="block font-display text-2xl text-black">{activeService.stats.shoots}</span>
+                                        <span className="text-[9px] uppercase tracking-wider text-black/40">Shoots</span>
+                                    </div>
+                                    <div className="text-center border-l border-black/10">
+                                        <span className="block font-display text-2xl text-black">{activeService.stats.satisfaction}</span>
+                                        <span className="text-[9px] uppercase tracking-wider text-black/40">Quality</span>
+                                    </div>
+                                    <div className="text-center border-l border-black/10">
+                                        <span className="block font-display text-2xl text-black">{activeService.stats.awards}</span>
+                                        <span className="text-[9px] uppercase tracking-wider text-black/40">Awards</span>
+                                    </div>
+                                </div>
+
+                                {/* Features */}
+                                <h4 className="font-sans text-[12px] uppercase font-bold tracking-wider text-black mb-4">What's Included</h4>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 mb-10">
+                                    {activeService.features.map((feature, i) => (
+                                        <li key={i} className="flex items-start gap-2">
+                                            <svg className="w-4 h-4 text-black/40 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span className="font-sans text-[13px] text-black/70">{feature}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Action */}
+                                <Link
+                                    href="/contact"
+                                    className="block w-full bg-black text-white text-center py-4 font-sans font-bold text-[12px] uppercase tracking-[0.15em] hover:bg-black/90 transition-colors"
+                                >
+                                    Book This Service
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <Footer />
         </div>

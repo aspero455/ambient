@@ -44,8 +44,8 @@ const BackgroundAnimation = () => {
     );
 };
 
-// Gallery images
-const portfolioImages = [
+// Default gallery images
+const defaultPortfolioImages = [
     "/img/524877796_18281941537284138_7194601866269685029_n..webp",
     "/img/528577300_18282637933284138_6024131309224852219_n..webp",
     "/img/528631979_18282710314284138_2035724994247197640_n..webp",
@@ -60,24 +60,32 @@ const portfolioImages = [
     "/img/584919632_18301346926284138_3623525760133837999_n.jpeg",
 ];
 
-// Services
-const services = [
-    { number: "01", title: "Wedding Photography", description: "Timeless imagery capturing every precious moment of your special day.", image: portfolioImages[0] },
-    { number: "02", title: "Portrait Sessions", description: "Refined portraiture revealing character and emotion.", image: portfolioImages[1] },
-    { number: "03", title: "Corporate Events", description: "Professional coverage of business events and milestones.", image: portfolioImages[2] },
-    { number: "04", title: "Fashion & Editorial", description: "High-fashion photography with creative direction.", image: portfolioImages[3] }
+// About image IDs mapping
+const aboutImageIds = [
+    'about_hero',
+    'about_story_1',
+    'about_story_2',
+    'about_service_1',
+    'about_service_2',
+    'about_service_3',
+    'about_service_4'
 ];
 
-// Journey milestones
+// Services (dynamic images)
+const getServices = (images: Record<string, string>) => [
+    { number: "01", title: "Wedding Photography", description: "Timeless imagery capturing every precious moment of your special day.", image: images.about_service_1 || defaultPortfolioImages[0] },
+    { number: "02", title: "Portrait Sessions", description: "Refined portraiture revealing character and emotion.", image: images.about_service_2 || defaultPortfolioImages[1] },
+    { number: "03", title: "Corporate Events", description: "Professional coverage of business events and milestones.", image: images.about_service_3 || defaultPortfolioImages[2] },
+    { number: "04", title: "Fashion & Editorial", description: "High-fashion photography with creative direction.", image: images.about_service_4 || defaultPortfolioImages[3] }
+];
+
+// Journey milestones (Business established 2015, 2-year intervals)
 const milestones = [
-    { year: "2018", title: "The Beginning", description: "Founded in Mumbai with a passion for capturing life's precious moments.", stat: "First Camera" },
-    { year: "2019", title: "First Milestone", description: "Covered our first major wedding and crossed 100+ events.", stat: "100+ Events" },
-    { year: "2020", title: "Studio Launch", description: "Opened our flagship studio with state-of-the-art equipment.", stat: "New Studio" },
-    { year: "2021", title: "Recognition", description: "Received 5 prestigious industry awards for excellence.", stat: "5 Awards" },
-    { year: "2022", title: "Team Growth", description: "Expanded to a team of 10+ talented photographers.", stat: "10+ Team" },
-    { year: "2023", title: "Global Reach", description: "Started covering destination weddings internationally.", stat: "Global" },
-    { year: "2024", title: "Premium Tier", description: "Launched luxury experiences for discerning clients.", stat: "Premium" },
-    { year: "2025", title: "The Future", description: "Continuing our journey of excellence and innovation.", stat: "500+ Clients" },
+    { year: "2015-2017", title: "The Beginning", description: "Founded in Mumbai with a passion for capturing life's precious moments. Started with our first camera and a dream.", stat: "Est. 2015" },
+    { year: "2017-2019", title: "Building Foundation", description: "Covered our first major wedding and crossed 100+ events. Built our reputation through dedication and artistry.", stat: "100+ Events" },
+    { year: "2019-2021", title: "Studio & Growth", description: "Opened our flagship studio with state-of-the-art equipment. Received industry recognition and awards.", stat: "5 Awards" },
+    { year: "2021-2023", title: "Team Expansion", description: "Expanded to a team of 10+ talented photographers. Started covering destination weddings internationally.", stat: "10+ Team" },
+    { year: "2023-2025", title: "Premium Excellence", description: "Launched luxury experiences for discerning clients. Continuing our journey of excellence and innovation.", stat: "500+ Clients" },
 ];
 
 // Philosophy values
@@ -103,6 +111,7 @@ export default function AboutPage() {
     const [activeService, setActiveService] = useState(0);
     const [activeJourney, setActiveJourney] = useState(0);
     const [loadedSections, setLoadedSections] = useState<Set<string>>(new Set());
+    const [aboutImages, setAboutImages] = useState<Record<string, string>>({});
 
     const heroRef = useRef<HTMLElement>(null);
     const introRef = useRef<HTMLElement>(null);
@@ -112,6 +121,47 @@ export default function AboutPage() {
     const galleryRef = useRef<HTMLElement>(null);
     const awardsRef = useRef<HTMLElement>(null);
     const ctaRef = useRef<HTMLElement>(null);
+
+    // Fetch dynamic images from Cloudinary config
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const res = await fetch('/api/images?section=about');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.images) {
+                        const imageMap: Record<string, string> = {};
+                        Object.keys(data.images).forEach(key => {
+                            imageMap[key] = data.images[key].url;
+                        });
+                        setAboutImages(imageMap);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch about images:', error);
+            }
+        };
+        fetchImages();
+    }, []);
+
+    // Get services with dynamic images
+    const services = getServices(aboutImages);
+
+    // Get portfolio images for gallery section
+    const portfolioImages = [
+        aboutImages.about_service_1 || defaultPortfolioImages[0],
+        aboutImages.about_service_2 || defaultPortfolioImages[1],
+        aboutImages.about_service_3 || defaultPortfolioImages[2],
+        aboutImages.about_service_4 || defaultPortfolioImages[3],
+        aboutImages.about_story_1 || defaultPortfolioImages[4],
+        aboutImages.about_story_2 || defaultPortfolioImages[5],
+        defaultPortfolioImages[6],
+        defaultPortfolioImages[7],
+        defaultPortfolioImages[8],
+        defaultPortfolioImages[9],
+        aboutImages.about_hero || defaultPortfolioImages[10],
+        defaultPortfolioImages[11],
+    ];
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -996,7 +1046,7 @@ export default function AboutPage() {
                             className="absolute top-[10%] left-[5%] font-display text-[200px] md:text-[300px] font-light text-white/[0.02] leading-none select-none"
                             style={{ animation: 'float 10s ease-in-out infinite' }}
                         >
-                            2018
+                            2015
                         </span>
                         <span
                             className="absolute bottom-[5%] right-[5%] font-display text-[150px] md:text-[250px] font-light text-white/[0.02] leading-none select-none"

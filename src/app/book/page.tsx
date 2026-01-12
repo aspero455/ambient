@@ -98,10 +98,25 @@ export default function BookPage() {
         e.preventDefault();
         if (validateForm()) {
             setIsSubmitting(true);
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            setIsSubmitting(false);
-            setIsSubmitted(true);
+
+            try {
+                const res = await fetch('/api/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (res.ok) {
+                    setIsSubmitted(true);
+                } else {
+                    console.error("Submission failed");
+                    // Optionally handle error state
+                }
+            } catch (error) {
+                console.error("Submission error:", error);
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "gallery_1768164763651",
+    "title": "Portrait",
+    "description": "",
+    "category": "wedding",
+    "image": "https://res.cloudinary.com/dl4eaaoez/image/upload/v1768164748/ambient-frames/ambient-gallery/gallery_1768164742029_1768164742176.jpg",
+    "publicId": "ambient-frames/ambient-gallery/gallery_1768164742029_1768164742176"
+  },
+  {
+    "id": "gallery_1",
+    "title": "Grand Wedding Celebration",
+    "category": "wedding",
+    "image": "/img/584919632_18301346926284138_3623525760133837999_n.jpeg"
+  },
+  {
+    "id": "gallery_2",
+    "title": "Fashion Editorial",
+    "category": "fashion",
+    "image": "/img/567395566_18292643899284138_984878061390000747_n.jpeg"
+  },
+  {
+    "id": "gallery_3",
+    "title": "Corporate Gala Night",
+    "category": "events",
+    "image": "/img/566414945_18292643884284138_3751019525464458517_n.jpeg"
+  },
+  {
+    "id": "gallery_4",
+    "title": "Candid Portrait",
+    "category": "portrait",
+    "image": "/img/526620207_18281937079284138_8438353020918415449_n..jpg"
+  },
+  {
+    "id": "gallery_5",
+    "title": "Bridal Elegance",
+    "category": "wedding",
+    "image": "/img/526617991_18281938183284138_1247856625555993611_n..jpg"
+  },
+  {
+    "id": "gallery_6",
+    "title": "Product Launch",
+    "category": "events",
+    "image": "/img/528279540_18282602014284138_194004958280868693_n..webp"
+  },
+  {
+    "id": "gallery_7",
+    "title": "Fashion Week",
+    "category": "fashion",
+    "image": "/img/528631979_18282710314284138_2035724994247197640_n..webp"
+  },
+  {
+    "id": "gallery_8",
+    "title": "Family Portrait",
+    "category": "portrait",
+    "image": "/img/529672310_18282710362284138_7894353990389373612_n..webp"
+  },
+  {
+    "id": "gallery_9",
+    "title": "Wedding Reception",
+    "category": "wedding",
+    "image": "/img/530361918_18283380247284138_133094580325100578_n..webp"
+  },
+  {
+    "id": "gallery_10",
+    "title": "Creative Portrait",
+    "category": "portrait",
+    "image": "/img/531822595_18283640836284138_2008306935621772497_n..webp"
+  },
+  {
+    "id": "gallery_11",
+    "title": "Elegant Fashion",
+    "category": "fashion",
+    "image": "/img/532239093_18283639591284138_1240929492701407161_n..webp"
+  },
+  {
+    "id": "gallery_12",
+    "title": "Traditional Ceremony",
+    "category": "wedding",
+    "image": "/img/532501606_18283429012284138_3710883859252304802_n..webp"
+  }
+]

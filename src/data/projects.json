@@ -1,0 +1,194 @@
+[
+  {
+    "id": "1",
+    "title": "The Royal Weddings",
+    "category": "Wedding",
+    "location": "Mumbai",
+    "year": "2024",
+    "image": "/img/524877796_18281941537284138_7194601866269685029_n..webp",
+    "size": "large",
+    "story": "Set against the opulent backdrop of the Taj Palace, this wedding was a symphony of tradition and modernity. The couple, Priya and Rahul, desired a visual narrative that honored their deep cultural roots while embracing a contemporary, cinematic aesthetic. The vision was to capture not just the rituals, but the fleeting, unscripted moments of pure emotion—the tear in a father's eye, the shared laughter between sisters, and the quiet intimacy amidst the grandeur.",
+    "process": "Our team of four operated with surgical precision over the three-day celebration. We employed a 'fly on the wall' documentary approach for the ceremonies, using long lenses to remain unobtrusive. For the couple portraits, we switched to dramatic off-camera lighting to create magazine-worthy editorials. Post-processing focused on rich, warm tones to reflect the royal gold and crimson palette of the decor.",
+    "details": {
+      "client": "Priya & Rahul",
+      "service": "Full Wedding Coverage",
+      "deliverables": "300+ Edited Photos, Cinematic Film, Luxury Album"
+    }
+  },
+  {
+    "id": "2",
+    "title": "Corporate Summit",
+    "category": "Corporate",
+    "location": "Bangalore",
+    "year": "2024",
+    "image": "/img/529672310_18282710362284138_7894353990389373612_n..webp",
+    "size": "small",
+    "story": "The Annual TechFlow Summit brings together the brightest minds in AI and robotics. The organizers needed imagery that conveyed innovation, scale, and dynamic interaction. They wanted to move away from stiff corporate headshots and capture the vibrant energy of networking and collaboration that defines their brand.",
+    "process": "We utilized high-shutter speeds and prime lenses to capture the fast-paced energy of the event in low light conditions. The challenge was to make a large conference hall feel intimate and engaging. We focused on dynamic angles, capturing speakers in passionate mid-gesture and attendees deep in conversation, creating a visual story of connection and progress.",
+    "details": {
+      "client": "TechFlow Inc",
+      "service": "Event Photography",
+      "deliverables": "Event Highlights, Social Media edits, Speaker Portraits"
+    }
+  },
+  {
+    "id": "3",
+    "title": "Fashion Forward",
+    "category": "Fashion",
+    "location": "Delhi",
+    "year": "2024",
+    "image": "/img/531822595_18283640836284138_2008306935621772497_n..webp",
+    "size": "medium",
+    "story": "For Vogue India's 'Modern Heritage' spread, the concept was to juxtapose brutalist architecture with fluid, traditional textiles. The goal was to create a sharp visual contrast that creates tension and intrigue. We aimed for a mood that was edgy, stark, yet incredibly elegant.",
+    "process": "Collaborating intimately with the stylist and art director, we scouted concrete structures that would serve as a canvas for the vibrant fabrics. We used harsh, direct sunlight to create strong shadows and geometric compositions. The direction for the model was to be strong and statuesque, mirroring the architecture around her.",
+    "details": {
+      "client": "Vogue India",
+      "service": "Editorial Shoot",
+      "deliverables": "12-Page Spread, Cover Option, Digital Assets"
+    }
+  },
+  {
+    "id": "4",
+    "title": "Family Legacy",
+    "category": "Portrait",
+    "location": "Pune",
+    "year": "2023",
+    "image": "/img/532508474_18283639534284138_7821912398438107581_n..webp",
+    "size": "small",
+    "story": "The Kapoor family wanted to document four generations coming together for a rare reunion at their ancestral home. The brief was simple: timeless, nostalgic, and authentic. They wanted images that would hang on their walls for decades, serving as a visual anchor for their family history.",
+    "process": "We opted for a purely natural light setup, utilizing the soft, diffused morning light streaming through the courtyard. We guided the family into loose, natural groupings rather than rigid poses, encouraging them to interact, talk, and laugh. This allowed us to capture genuine expressions and the subtle, tender dynamics between the generations.",
+    "details": {
+      "client": "The Kapoor Family",
+      "service": "Family Portrait Session",
+      "deliverables": "Framed Fine Art Prints, Digital Archive"
+    }
+  },
+  {
+    "id": "5",
+    "title": "New Beginnings",
+    "category": "Maternity",
+    "location": "Goa",
+    "year": "2024",
+    "image": "/img/567395566_18292643899284138_984878061390000747_n.jpeg",
+    "size": "large",
+    "story": "Sarah and Mike wanted to celebrate the anticipation of their first child with a shoot that felt peaceful and connected to nature. The concept was 'Ethereal Dawn'—capturing the quiet, sacred moments of pregnancy against the vastness of the ocean.",
+    "process": "We shot exclusively during the golden hour at a secluded beach. Using a shallow depth of field, we isolated the couple from the background, turning the ocean into a soft, painting-like wash of blues and golds. We directed them to focus on each other and the baby, creating a bubble of intimacy that felt private and profound.",
+    "details": {
+      "client": "Sarah & Mike",
+      "service": "Maternity Session",
+      "deliverables": "30 Edited High-Res Photos, Online Gallery"
+    }
+  },
+  {
+    "id": "6",
+    "title": "Luxury Launch",
+    "category": "Corporate",
+    "location": "Mumbai",
+    "year": "2024",
+    "image": "/img/528577300_18282637933284138_6024131309224852219_n..webp",
+    "size": "medium",
+    "story": "Luxe Co needed to unveil their new diamond line with an event that dripped with sophistication. The photography needed to be as premium as the jewelry itself—sharp, high-contrast, and glamorous. Every image had to reinforce the exclusivity of the brand.",
+    "process": "We treated the event coverage almost like a product shoot. We brought in portable studio lighting to ensure the jewelry sparkled in every shot, even in the dim ambient light of the venue. We balanced candid social shots of VIP guests with meticulous detail shots of the product displays, ensuring a comprehensive coverage of the luxury experience.",
+    "details": {
+      "client": "Luxe Co",
+      "service": "Launch Event Coverage",
+      "deliverables": "Product Shots, Press Release Images, Social Media Reels"
+    }
+  },
+  {
+    "id": "7",
+    "title": "Intimate Celebration",
+    "category": "Wedding",
+    "location": "Maldives",
+    "year": "2023",
+    "image": "/img/528631979_18282710314284138_2035724994247197640_n..webp",
+    "size": "small",
+    "story": "Amit and Neha chose a private island for their vows, focusing on intimacy over spectacle. With only 20 guests, the atmosphere was incredibly personal. Our task was to capture the romance of the setting and the deep emotional connection of the small group without interrupting the flow.",
+    "process": "In such a small setting, discretion is key. We shot predominantly with silent shutters and long focal lengths. The changing tropical light provided a stunning array of colors, which we optimized for in-camera to capture the vibrant turquoises and sunset oranges. We focused heavily on the raw, unposed reactions during the vows.",
+    "details": {
+      "client": "Amit & Neha",
+      "service": "Destination Wedding",
+      "deliverables": "Wedding Album, Highlight Reel, curated Prints"
+    }
+  },
+  {
+    "id": "8",
+    "title": "CEO Portraits",
+    "category": "Portrait",
+    "location": "Hyderabad",
+    "year": "2024",
+    "image": "/img/530361918_18283380247284138_133094580325100578_n..webp",
+    "size": "medium",
+    "story": "The CEO of Innovate Corp needed a visual rebrand. He wanted to move away from the 'stiff suit' stereotype to a more modern, approachable, visionary leader persona. The goal was to create portraits that looked authoritative yet inviting.",
+    "process": "We chose a modern architectural location with glass and steel lines to reflect the tech industry. We used a three-light setup to sculpt the face and separate the subject from the background, creating a polished, high-end commercial look. We coached him through expressions that conveyed confidence, warmth, and focus.",
+    "details": {
+      "client": "Innovate Corp",
+      "service": "Executive Headshots",
+      "deliverables": "Digital Profiles, LinkedIn Header, Press Kit"
+    }
+  },
+  {
+    "id": "9",
+    "title": "Monsoon Magic",
+    "category": "Fashion",
+    "location": "Kerala",
+    "year": "2023",
+    "image": "/img/532239093_18283639591284138_1240929492701407161_n..webp",
+    "size": "large",
+    "story": "FabIndia's monsoon collection required a campaign that celebrated the romance of the rains. The concept 'Windswept' aimed to capture the movement of the fabrics in the wind and the lush, saturated greens of the Kerala backwaters.",
+    "process": "Shooting in the rain presents unique challenges. We protected our gear with custom housings and embraced the weather rather than fighting it. We used slower shutter speeds to blur the falling rain, turning it into a texture rather than a distraction. The soft, overcast light acted as a giant softbox, providing beautifully even illumination.",
+    "details": {
+      "client": "FabIndia",
+      "service": "Campaign Shoot",
+      "deliverables": "Print Campaign Images, Lookbook, Digital Billboards"
+    }
+  },
+  {
+    "id": "10",
+    "title": "Baby Steps",
+    "category": "Maternity",
+    "location": "Mumbai",
+    "year": "2024",
+    "image": "/img/584919632_18301346926284138_3623525760133837999_n.jpeg",
+    "size": "small",
+    "story": "The Sharma family wanted to freeze time during the first two weeks of their newborn's life. They requested a 'lifestyle' approach—capturing the baby in their natural home environment rather than in a studio with props.",
+    "process": "Working with newborns requires immense patience and calm. We followed the baby's schedule, taking breaks for feeding and soothing. We used natural window light to keep the mood soft and organic. The focus was on the tiny details—the fingers, the toes, the eyelashes—and the tender interactions between the parents and their new miracle.",
+    "details": {
+      "client": "The Sharmas",
+      "service": "In-Home Newborn Session",
+      "deliverables": "Birth Announcement Photos, Memory Box"
+    }
+  },
+  {
+    "id": "11",
+    "title": "Heritage Wedding",
+    "category": "Wedding",
+    "location": "Chennai",
+    "year": "2023",
+    "image": "/img/532501606_18283429012284138_3710883859252304802_n..webp",
+    "size": "medium",
+    "story": "Karthik and Ananya's wedding was a vibrant tapestry of Tamil traditions. From the Kanjeevaram sarees to the intricate floral decorations, color was the protagonist. They wanted photos that felt alive, celebratory, and culturally authentic.",
+    "process": "To do justice to the vibrant colors, we paid careful attention to white balance and exposure. We used a mix of wide-angle shots to capture the chaos and energy of the procession, and macro lenses for the jewelry and ritual details. We positioned ourselves to capture the perfect symmetry of the mandap interactions.",
+    "details": {
+      "client": "Karthik & Ananya",
+      "service": "Traditional Wedding",
+      "deliverables": "Traditional Album, Coffee Table Book"
+    }
+  },
+  {
+    "id": "12",
+    "title": "Startup Culture",
+    "category": "Corporate",
+    "location": "Bangalore",
+    "year": "2024",
+    "image": "/img/566414945_18292643884284138_3751019525464458517_n.jpeg",
+    "size": "small",
+    "story": "NextGen Tech is a startup defined by its flat hierarchy and collaborative spirit. They needed a library of images for their careers page that showed 'real people doing real work', avoiding all stock photography clichés.",
+    "process": "We spent a full day embedded in their office, becoming part of the furniture. We photographed stand-up meetings, lunch breaks, and brainstorming sessions. We looked for genuine smiles and moments of breakthrough. The editing style was kept bright, airy, and clean to reflect their transparent modern culture.",
+    "details": {
+      "client": "NextGen Tech",
+      "service": "Culture & Branding Shoot",
+      "deliverables": "Website Assets, Recruitment Deck Images"
+    }
+  }
+]

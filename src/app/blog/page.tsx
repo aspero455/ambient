@@ -12,73 +12,106 @@ import AnimatedCameraBackground from '@/components/ui/AnimatedCameraBackground';
  * Blog Page - "The Journal"
  * 
  * A high-end, editorial blog page that matches the Ambient Frames aesthetic.
- * Features:
- * - Parallax Hero (Services style)
- * - Category filtering
- * - Staggered card reveals
- * - Elegant typography
  */
 
-const blogPosts = [
+// Blog image IDs
+const blogImageIds = ['blog_1', 'blog_2', 'blog_3', 'blog_4', 'blog_5', 'blog_6'];
+
+// Default blog post data
+const defaultBlogPosts = [
     {
         id: 1,
         title: "The Art of Natural Light in Portraiture",
-        excerpt: "Discover how to harness the sun's softest hours to create hauntingly beautiful portraits that breathe life into every frame.",
+        excerpt: "Discover how to harness the sun's softest hours to create hauntingly beautiful portraits.",
         category: "Tutorial",
         date: "Jan 12, 2024",
         readTime: "6 min read",
         image: "/img/524877796_18281941537284138_7194601866269685029_n..webp",
-        featured: true
+        featured: true,
+        author: "Harsh Patel",
+        content: `
+            <p className="mb-6 font-serif text-lg leading-relaxed">Lighting is not just about exposure; it's about feeling. In this extensive guide, we explore the subtle nuances of natural light and how it shapes the emotional narrative of a portrait.</p>
+            <h3 className="text-xl font-bold mb-4 font-sans uppercase tracking-widest">The Golden Hour</h3>
+            <p className="mb-6 text-black/70">The hour after sunrise and the hour before sunset provide a quality of light that is unmatched. The low angle of the sun creates long, dramatic shadows and a warm, gold hue that renders skin tones beautifully.</p>
+            <h3 className="text-xl font-bold mb-4 font-sans uppercase tracking-widest">Window Light</h3>
+            <p className="mb-6 text-black/70">North-facing windows are a photographer's best friend. They offer soft, diffused light that wraps around the subject, creating a painterly effect reminiscent of the Old Masters.</p>
+            <blockquote className="border-l-2 border-black pl-6 py-2 my-8 font-serif text-2xl italic">"Light makes photography. Embrace light. Admire it. Love it. But above all, know light."</blockquote>
+        `
     },
     {
         id: 2,
         title: "Capturing the Unseen: Wedding Moments",
-        excerpt: "Beyond the posed shots lie the true essence of a wedding. We explore the candid split-seconds that define a lifetime of love.",
+        excerpt: "Beyond the posed shots lie the true essence of a wedding.",
         category: "Inside Look",
         date: "Jan 08, 2024",
         readTime: "8 min read",
         image: "/img/528577300_18282637933284138_6024131309224852219_n..webp",
-        featured: false
+        featured: false,
+        author: "Sarah Jenkins",
+        content: `
+            <p className="mb-6 font-serif text-lg leading-relaxed">Weddings are a whirlwind of emotions. While formal portraits are necessary, the soul of the event hides in the in-between moments.</p>
+            <p className="mb-6 text-black/70">A stolen glance, a tear wiped away, a child sleeping amidst the chaos—these are the images that families treasure for generations. Our approach is 80% documentary, 20% directed.</p>
+        `
     },
     {
         id: 3,
         title: "Gear Talk: Why We Still Choose Leica",
-        excerpt: "Technical specifications are just part of the story. Explore why the Leica aesthetic remains the gold standard for our studio.",
+        excerpt: "Technical specifications are just part of the story.",
         category: "Equipment",
         date: "Jan 05, 2024",
         readTime: "10 min read",
         image: "/img/528631979_18282710314284138_2035724994247197640_n..webp",
-        featured: false
+        featured: false,
+        author: "Tech Team",
+        content: `
+            <p className="mb-6 font-serif text-lg leading-relaxed">In an era of computational photography and AI, why do we stick to a manual rangefinder? The answer lies in the process.</p>
+            <p className="mb-6 text-black/70">It slows you down. It forces you to think before you click. The glass rendering is unique—micro-contrast that gives a 3D pop to images that digital sharpness simply cannot emulate.</p>
+        `
     },
     {
         id: 4,
         title: "The Mumbai Color Palette: A Visual Guide",
-        excerpt: "How the vibrant yet cinematic colors of Mumbai influence our post-processing and visual storytelling approach.",
+        excerpt: "How the vibrant yet cinematic colors of Mumbai influence our approach.",
         category: "Perspective",
         date: "Dec 28, 2023",
         readTime: "5 min read",
         image: "/img/529672310_18282710362284138_7894353990389373612_n..webp",
-        featured: false
+        featured: false,
+        author: "Creative Director",
+        content: `
+            <p className="mb-6 font-serif text-lg leading-relaxed">Mumbai is not just a city; it's a sensory overload. Visually, it's a clash of teal ocean, warm sunsets, and the grays of urban decay.</p>
+            <p className="mb-6 text-black/70">We emulate this in our color grading. We push for warmer highlights and cooler shadows, creating a 'teal and orange' look that feels cinematic yet grounded in the reality of the city.</p>
+        `
     },
     {
         id: 5,
         title: "Directing Models for Emotional Authenticity",
-        excerpt: "Moving beyond technical perfection to capture raw, honest human emotions in high-fashion and commercial shoots.",
+        excerpt: "Moving beyond technical perfection.",
         category: "Tutorial",
         date: "Dec 20, 2023",
         readTime: "12 min read",
         image: "/img/530361918_18283380247284138_133094580325100578_n..webp",
-        featured: false
+        featured: false,
+        author: "Harsh Patel",
+        content: `
+            <p className="mb-6 font-serif text-lg leading-relaxed">A model is not a prop. To get a genuine expression, you need to build a connection.</p>
+            <p className="mb-6 text-black/70">Talk to them. Play music. Create a scenario. Don't just say 'smile'. Say 'think about a secret you've never told anyone'. The eyes will change, and that's when you click.</p>
+        `
     },
     {
         id: 6,
         title: "Black & White: The Soul of Cinematography",
-        excerpt: "Removing color often reveals the deepest truths. Why monochrome photography continues to dominate modern luxury branding.",
+        excerpt: "Why monochrome photography continues to dominate.",
         category: "Analysis",
         date: "Dec 15, 2023",
         readTime: "7 min read",
         image: "/img/531822595_18283640836284138_2008306935621772497_n..webp",
-        featured: false
+        featured: false,
+        author: "Editor's Desk",
+        content: `
+            <p className="mb-6 font-serif text-lg leading-relaxed">Color distracts. Black and white interprets.</p>
+            <p className="mb-6 text-black/70">When you remove color, you are left with light, texture, and emotion. It forces the viewer to focus on the composition and the subject's expression.</p>
+        `
     }
 ];
 
@@ -88,7 +121,41 @@ export default function BlogPage() {
     const [activeCategory, setActiveCategory] = useState("All Stories");
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
+    const [selectedPost, setSelectedPost] = useState<any | null>(null);
     const heroRef = useRef<HTMLElement>(null);
+    const [blogPosts, setBlogPosts] = useState(defaultBlogPosts);
+
+    // Lock Body Scroll when Modal is Open
+    useEffect(() => {
+        if (selectedPost) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [selectedPost]);
+
+    // Fetch dynamic images from Cloudinary config
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const res = await fetch('/api/images?section=blog');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.images) {
+                        const updatedPosts = defaultBlogPosts.map((post, index) => {
+                            const imageId = blogImageIds[index];
+                            const cloudinaryUrl = data.images[imageId]?.url;
+                            return cloudinaryUrl ? { ...post, image: cloudinaryUrl } : post;
+                        });
+                        setBlogPosts(updatedPosts);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch blog images:', error);
+            }
+        };
+        fetchImages();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -137,21 +204,19 @@ export default function BlogPage() {
                         }}
                     />
 
-                    {/* Glowing Orbs */}
+                    {/* Red Floating Orbs (Subtle Background) */}
                     <div className="absolute inset-0 pointer-events-none overflow-hidden">
                         <motion.div
-                            className="absolute w-60 h-60 rounded-full"
+                            className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full"
                             style={{
-                                background: 'radial-gradient(circle, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.04) 40%, transparent 70%)',
-                                boxShadow: '0 0 100px 40px rgba(0,0,0,0.05)',
+                                background: 'radial-gradient(circle, rgba(239, 68, 68, 0.05) 0%, transparent 70%)',
+                                filter: 'blur(100px)',
                             }}
                             animate={{
-                                x: [0, 150, 80, -80, 0],
-                                y: [0, -120, 60, 150, 0],
-                                scale: [1, 1.2, 0.9, 1.1, 1],
+                                opacity: [0.3, 0.6, 0.3],
+                                scale: [1, 1.1, 1],
                             }}
-                            transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-                            initial={{ top: '10%', left: '10%' }}
+                            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
                         />
                     </div>
 
@@ -198,6 +263,45 @@ export default function BlogPage() {
                                 Exploring the intersection of technical excellence and authentic human storytelling in contemporary photography.
                             </motion.p>
                         </div>
+
+                        {/* Creative "Book a Session" Rotating Aperture Animation */}
+                        <div className="absolute top-1/2 right-[10%] -translate-y-1/2 hidden lg:block z-10">
+                            <Link href="/contact" className="group relative block w-[280px] h-[280px]">
+                                {/* Outer Rotating Ring with Text */}
+                                <motion.div
+                                    className="absolute inset-0 w-full h-full"
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                >
+                                    <svg viewBox="0 0 200 200" className="w-full h-full">
+                                        <defs>
+                                            <path id="textPath" d="M 100, 100 m -80, 0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" />
+                                        </defs>
+                                        <text fontSize="18" fontWeight="bold" letterSpacing="4" fill="currentColor" className="text-black/20 uppercase font-sans">
+                                            <textPath href="#textPath" startOffset="0%">
+                                                • Book a Session • Capture the Moment • Create Memories
+                                            </textPath>
+                                        </text>
+                                    </svg>
+                                </motion.div>
+
+                                {/* Inner Aperture / Button */}
+                                <div className="absolute inset-[20%] rounded-full border border-black/10 bg-white flex items-center justify-center shadow-lg group-hover:scale-90 transition-transform duration-500 ease-out">
+                                    <div className="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        <span className="relative font-display text-2xl text-black group-hover:text-white transition-colors duration-300 z-10">
+                                            Book<br />Now
+                                        </span>
+                                        {/* Aperture Blades Decoration */}
+                                        <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            {[...Array(6)].map((_, i) => (
+                                                <div key={i} className="absolute top-1/2 left-1/2 w-full h-px bg-black origin-left" style={{ transform: `rotate(${i * 60}deg) translateX(10%)` }} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 </section>
 
@@ -232,7 +336,7 @@ export default function BlogPage() {
                 ═══════════════════════════════════════════════════════════════ */}
                 <section className="py-20 md:py-32">
                     <div className="container mx-auto px-6 md:px-10 max-w-[1440px]">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-20">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
                             <AnimatePresence mode="popLayout">
                                 {filteredPosts.map((post, index) => (
                                     <motion.article
@@ -241,8 +345,9 @@ export default function BlogPage() {
                                         initial={{ opacity: 0, y: 40 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ duration: 0.8, delay: (index % 3) * 0.1 }}
+                                        transition={{ duration: 0.8, delay: (index % 2) * 0.1 }}
                                         className="group cursor-pointer"
+                                        onClick={() => setSelectedPost(post)}
                                     >
                                         <div className="relative aspect-[4/5] overflow-hidden mb-8 rounded-sm">
                                             <Image
@@ -335,7 +440,108 @@ export default function BlogPage() {
                 </section>
             </main>
 
-            <Footer />
+            {/* ═══════════════════════════════════════════════════════════════
+                 BLOG DETAIL MODAL (Full Screen Preview)
+            ═══════════════════════════════════════════════════════════════ */}
+            <AnimatePresence>
+                {selectedPost && (
+                    <motion.div
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+                        initial={{ opacity: 0, y: '100%' }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: '100%' }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    >
+                        {/* FIXED CLOSE BUTTON */}
+                        <button
+                            onClick={() => setSelectedPost(null)}
+                            className="fixed top-6 right-6 z-[110] w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform cursor-pointer border border-black/5"
+                        >
+                            <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        <div className="flex flex-col lg:flex-row w-full h-full">
+
+                            {/* LEFT: IMMERSIVE IMAGE */}
+                            <div className="relative w-full lg:w-[50%] h-[40vh] lg:h-full bg-gray-100">
+                                <motion.div className="absolute inset-0 z-10 bg-black/10" />
+                                <Image
+                                    src={selectedPost.image}
+                                    alt={selectedPost.title}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            </div>
+
+                            {/* RIGHT: CONTENT SCROLL */}
+                            <div className="w-full lg:w-[50%] h-[60vh] lg:h-full overflow-y-auto bg-white custom-scrollbar">
+                                <div className="p-8 md:p-20 pt-16">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3 }}
+                                    >
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="bg-black text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">
+                                                {selectedPost.category}
+                                            </span>
+                                            <span className="text-black/40 text-[12px] uppercase tracking-wider font-medium">
+                                                {selectedPost.readTime}
+                                            </span>
+                                        </div>
+
+                                        <h2 className="font-display text-[42px] md:text-[56px] leading-[1.1] text-black mb-8">
+                                            {selectedPost.title}
+                                        </h2>
+
+                                        <div className="flex items-center gap-4 border-b border-black/10 pb-8 mb-12">
+                                            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
+                                                {/* Placeholder Avatar */}
+                                                <svg className="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p className="font-sans text-[12px] font-bold uppercase tracking-wider text-black">
+                                                    {selectedPost.author || "Ambient Team"}
+                                                </p>
+                                                <p className="font-sans text-[11px] text-black/40 uppercase tracking-widest">
+                                                    {selectedPost.date}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.4 }}
+                                        className="prose prose-lg prose-headings:font-display prose-p:font-serif prose-p:text-black/70 max-w-none"
+                                        dangerouslySetInnerHTML={{ __html: selectedPost.content || `<p>${selectedPost.excerpt}</p>` }}
+                                    />
+
+                                    {/* Footer / Share / Next Article */}
+                                    <div className="mt-20 pt-10 border-t border-black/10 flex justify-between items-center">
+                                        <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-black/40">
+                                            Share this article
+                                        </span>
+                                        <div className="flex gap-4">
+                                            {['Twitter', 'Facebook', 'LinkedIn'].map(social => (
+                                                <button key={social} className="text-black/60 hover:text-black font-sans text-[11px] uppercase tracking-wider transition-colors">
+                                                    {social}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

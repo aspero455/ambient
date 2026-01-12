@@ -1,319 +1,318 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * GalleryShowcase Component - Photography Portfolio
+ * GalleryShowcase (Home Portfolio) Component
  * 
- * Interactive masonry gallery with filtering by photography category,
- * lightbox preview, and smooth reveal animations.
+ * Shows a curated highlight of projects.
+ * Features:
+ * - Glowing atmospheric background.
+ * - Interactive modal preview (synced with Projects Page).
  */
 
-const categories = [
-    { id: 'all', label: 'All Work' },
-    { id: 'wedding', label: 'Weddings' },
-    { id: 'fashion', label: 'Fashion' },
-    { id: 'events', label: 'Events' },
-    { id: 'portrait', label: 'Portraits' },
-];
-
-// Using high-quality JPEG images for better resolution
-const galleryItems = [
-    {
-        id: 1,
-        title: "Grand Wedding Celebration",
-        category: "wedding",
-        image: "/img/584919632_18301346926284138_3623525760133837999_n.jpeg",
-        size: "extraTall",
-        location: "Mumbai Palace",
-    },
-    {
-        id: 2,
-        title: "Fashion Editorial",
-        category: "fashion",
-        image: "/img/567395566_18292643899284138_984878061390000747_n.jpeg",
-        size: "wide",
-        location: "Designer Studio",
-    },
-    {
-        id: 3,
-        title: "Corporate Gala Night",
-        category: "events",
-        image: "/img/566414945_18292643884284138_3751019525464458517_n.jpeg",
-        size: "normal",
-        location: "Delhi",
-    },
-    {
-        id: 4,
-        title: "Candid Portrait",
-        category: "portrait",
-        image: "/img/526620207_18281937079284138_8438353020918415449_n..jpg",
-        size: "tall",
-        location: "Outdoor Session",
-    },
-    {
-        id: 5,
-        title: "Bridal Elegance",
-        category: "wedding",
-        image: "/img/526617991_18281938183284138_1247856625555993611_n..jpg",
-        size: "large",
-        location: "Jaipur Palace",
-    },
-    {
-        id: 6,
-        title: "Product Launch",
-        category: "events",
-        image: "/img/528279540_18282602014284138_194004958280868693_n..webp",
-        size: "small",
-        location: "Bangalore",
-    },
-    {
-        id: 7,
-        title: "Fashion Week",
-        category: "fashion",
-        image: "/img/528631979_18282710314284138_2035724994247197640_n..webp",
-        size: "tall",
-        location: "Lakme Fashion Week",
-    },
-    {
-        id: 8,
-        title: "Family Portrait",
-        category: "portrait",
-        image: "/img/529672310_18282710362284138_7894353990389373612_n..webp",
-        size: "normal",
-        location: "Studio Session",
-    },
-    {
-        id: 9,
-        title: "Wedding Reception",
-        category: "wedding",
-        image: "/img/530361918_18283380247284138_133094580325100578_n..webp",
-        size: "wide",
-        location: "Mumbai",
-    },
-    {
-        id: 10,
-        title: "Creative Portrait",
-        category: "portrait",
-        image: "/img/531822595_18283640836284138_2008306935621772497_n..webp",
-        size: "small",
-        location: "Outdoor Shoot",
-    },
-    {
-        id: 11,
-        title: "Elegant Fashion",
-        category: "fashion",
-        image: "/img/532239093_18283639591284138_1240929492701407161_n..webp",
-        size: "normal",
-        location: "Designer Collection",
-    },
-    {
-        id: 12,
-        title: "Traditional Ceremony",
-        category: "wedding",
-        image: "/img/532501606_18283429012284138_3710883859252304802_n..webp",
-        size: "tall",
-        location: "Traditional Venue",
-    },
-];
-
-// Size classes for stunning masonry layout
-const getSizeClasses = (size: string) => {
-    switch (size) {
-        case 'extraTall':
-            return { grid: 'row-span-3', aspect: 'aspect-[2/5]' };
-        case 'tall':
-            return { grid: 'row-span-2', aspect: 'aspect-[3/5]' };
-        case 'large':
-            return { grid: 'col-span-2 row-span-2', aspect: 'aspect-square' };
-        case 'wide':
-            return { grid: 'col-span-2', aspect: 'aspect-[16/9]' };
-        case 'small':
-            return { grid: '', aspect: 'aspect-square' };
-        case 'normal':
-        default:
-            return { grid: '', aspect: 'aspect-[3/4]' };
-    }
-};
+interface Project {
+    id: string | number;
+    title: string;
+    category: string;
+    image: string;
+    location?: string;
+    year?: string;
+    story?: string;
+    process?: string;
+    details?: {
+        client: string;
+        service: string;
+        deliverables: string;
+    };
+}
 
 const GalleryShowcase: React.FC = () => {
-    const sectionRef = useRef<HTMLElement>(null);
-    const [isVisible, setIsVisible] = useState(false);
-    const [activeCategory, setActiveCategory] = useState('all');
-    const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
+    // Fetch projects from API
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
+        fetch('/api/projects')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setProjects(data.slice(0, 3));
                 }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
+                setIsLoading(false);
+            })
+            .catch(err => {
+                console.error(err);
+                setIsLoading(false);
+            });
     }, []);
 
-    const filteredItems = activeCategory === 'all'
-        ? galleryItems
-        : galleryItems.filter(item => item.category === activeCategory);
+    // Prevent body scroll when modal is open
+    useEffect(() => {
+        if (selectedProject) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [selectedProject]);
+
+    // Even if loading, show structure. If empty, show nothing.
+    if (!isLoading && !projects.length) return null;
 
     return (
-        <section
-            ref={sectionRef}
-            className="relative bg-white py-24 md:py-40 overflow-hidden"
-        >
-            {/* Subtle Background */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#FAFAFA] to-transparent" />
-                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#FAFAFA] to-transparent" />
+        <section className="relative bg-white py-24 md:py-32 overflow-hidden" id="portfolio">
+            {/* ═══════════════════════════════════════════════════════════════
+                 Background Animations (Black Glow)
+            ═══════════════════════════════════════════════════════════════ */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <motion.div
+                    animate={{
+                        opacity: [0.4, 0.7, 0.4],
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 20, 0]
+                    }}
+                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute -top-[20%] -right-[15%] w-[800px] h-[800px] bg-gradient-radial from-black/5 to-transparent blur-[120px] rounded-full hidden md:block"
+                />
+                <motion.div
+                    animate={{
+                        opacity: [0.3, 0.5, 0.3],
+                        scale: [1, 1.1, 1],
+                        x: [0, 50, 0]
+                    }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                    className="absolute top-[40%] -left-[10%] w-[600px] h-[600px] bg-black/5 blur-[100px] rounded-full hidden md:block"
+                />
+                <div className="absolute inset-0 opacity-[0.03] bg-[url('/noise.png')] pointer-events-none" />
             </div>
 
-            <div className="container mx-auto px-6 md:px-10 max-w-[1440px]">
+            <div className="container mx-auto px-6 md:px-12 max-w-[1440px] relative z-10">
                 {/* Section Header */}
-                <div
-                    className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 md:mb-16"
-                    style={{
-                        opacity: isVisible ? 1 : 0,
-                        transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-                        transition: 'all 0.8s ease',
-                    }}
-                >
-                    <div className="max-w-[600px]">
-                        <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-black/40 mb-6 block">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-[600px]"
+                    >
+                        <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-black/40 mb-4 block">
                             Our Portfolio
                         </span>
-                        <h2 className="font-display text-[48px] md:text-[72px] font-light text-black leading-[0.95] tracking-[-0.02em]">
-                            Stories we've
-                            <span className="block text-black/40">captured.</span>
+                        <h2 className="font-display text-[48px] md:text-[64px] font-light text-black leading-[1] tracking-[-0.03em]">
+                            Stories we've <span className="text-black/40">captured.</span>
                         </h2>
-                    </div>
+                    </motion.div>
 
-                    {/* Category Filter */}
-                    <div className="flex flex-wrap gap-3">
-                        {categories.map((category) => (
-                            <button
-                                key={category.id}
-                                onClick={() => setActiveCategory(category.id)}
-                                className={`px-6 py-3 font-sans text-[12px] font-bold uppercase tracking-[0.1em] transition-all duration-300 ${activeCategory === category.id
-                                    ? 'bg-black text-white'
-                                    : 'bg-black/5 text-black/60 hover:bg-black/10 hover:text-black'
-                                    }`}
-                            >
-                                {category.label}
-                            </button>
-                        ))}
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="hidden md:block mb-4"
+                    >
+                        <Link
+                            href="/projects"
+                            className="text-[12px] font-sans font-bold uppercase tracking-[0.1em] border-b border-black pb-1 hover:text-black/60 hover:border-black/60 transition-all"
+                        >
+                            View All Projects
+                        </Link>
+                    </motion.div>
                 </div>
 
-                {/* Stunning Masonry Grid */}
-                <div
-                    className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[120px] md:auto-rows-[150px]"
-                    style={{
-                        opacity: isVisible ? 1 : 0,
-                        transition: 'opacity 0.8s ease 0.3s',
-                    }}
-                >
-                    {filteredItems.map((item, index) => {
-                        const sizeConfig = getSizeClasses(item.size);
+                {/* Projects Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    {projects.map((project, index) => {
+                        if (!project) return null;
+                        const imageSrc = project.image || '/img/placeholder.jpg';
 
                         return (
-                            <div
-                                key={item.id}
-                                className={`relative group cursor-pointer overflow-hidden ${sizeConfig.grid}`}
-                                style={{
-                                    opacity: isVisible ? 1 : 0,
-                                    transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
-                                    transition: `all 0.6s ease ${index * 0.08}s`,
-                                }}
-                                onMouseEnter={() => setHoveredItem(item.id)}
-                                onMouseLeave={() => setHoveredItem(null)}
+                            <motion.div
+                                key={project.id}
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: index * 0.2 }}
+                                className="flex flex-col gap-6 group cursor-pointer"
+                                onClick={() => setSelectedProject(project)}
                             >
-                                {/* Image Container */}
-                                <div className="relative w-full h-full overflow-hidden">
+                                {/* Image Container (Now clickable trigger for modal) */}
+                                <div className="block relative aspect-[3/4] overflow-hidden bg-gray-100 shadow-sm transition-all duration-500 hover:shadow-2xl">
                                     <Image
-                                        src={item.image}
-                                        alt={item.title}
+                                        src={imageSrc}
+                                        alt={project.title || 'Project Image'}
                                         fill
-                                        sizes="(max-width: 768px) 50vw, 25vw"
-                                        quality={95}
-                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                                     />
+                                    {/* Dark Overlay */}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
 
-                                    {/* Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                                    {/* Content */}
-                                    <div
-                                        className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end"
-                                        style={{
-                                            opacity: hoveredItem === item.id ? 1 : 0,
-                                            transform: hoveredItem === item.id ? 'translateY(0)' : 'translateY(20px)',
-                                            transition: 'all 0.4s ease',
-                                        }}
-                                    >
-                                        <span className="font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mb-1 md:mb-2">
-                                            {item.location}
-                                        </span>
-                                        <h4 className="font-display text-[16px] md:text-[22px] font-light text-white leading-tight">
-                                            {item.title}
-                                        </h4>
+                                    {/* Icon */}
+                                    <div className="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-md transform translate-y-2 group-hover:translate-y-0">
+                                        <svg className="w-6 h-6 rotate-45" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="1.5" />
+                                        </svg>
                                     </div>
-
-                                    {/* View Button */}
-                                    <div
-                                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                                        style={{
-                                            opacity: hoveredItem === item.id ? 1 : 0,
-                                            transform: hoveredItem === item.id ? 'scale(1)' : 'scale(0.5)',
-                                            transition: 'all 0.4s ease',
-                                        }}
-                                    >
-                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-white/90 flex items-center justify-center">
-                                            <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-
-                                    {/* Corner Accents on Hover */}
-                                    <div className={`absolute top-3 left-3 w-4 h-4 border-l border-t border-white transition-opacity duration-300 ${hoveredItem === item.id ? 'opacity-100' : 'opacity-0'}`} />
-                                    <div className={`absolute top-3 right-3 w-4 h-4 border-r border-t border-white transition-opacity duration-300 ${hoveredItem === item.id ? 'opacity-100' : 'opacity-0'}`} />
-                                    <div className={`absolute bottom-3 left-3 w-4 h-4 border-l border-b border-white transition-opacity duration-300 ${hoveredItem === item.id ? 'opacity-100' : 'opacity-0'}`} />
-                                    <div className={`absolute bottom-3 right-3 w-4 h-4 border-r border-b border-white transition-opacity duration-300 ${hoveredItem === item.id ? 'opacity-100' : 'opacity-0'}`} />
                                 </div>
-                            </div>
+
+                                {/* Content */}
+                                <div>
+                                    <span className="font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-black/40 mb-2 block">
+                                        {project.category}
+                                    </span>
+                                    <h3 className="font-display text-[28px] font-light text-black leading-tight group-hover:text-black/60 transition-colors">
+                                        {project.title}
+                                    </h3>
+                                    {project.location && (
+                                        <p className="font-sans text-[12px] text-black/60 mt-1">{project.location}</p>
+                                    )}
+                                </div>
+                            </motion.div>
                         );
                     })}
                 </div>
 
-                {/* View All CTA */}
-                <div
-                    className="mt-16 md:mt-24 text-center"
-                    style={{
-                        opacity: isVisible ? 1 : 0,
-                        transition: 'opacity 0.8s ease 0.8s',
-                    }}
-                >
-                    <button className="group relative inline-flex items-center gap-4 bg-black text-white px-12 py-6 font-sans font-bold text-[12px] tracking-[0.15em] uppercase overflow-hidden">
-                        <span className="relative z-10">View Full Portfolio</span>
-                        <svg className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#333] to-[#555] transform translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
-                    </button>
+                {/* Mobile View All Button */}
+                <div className="mt-12 md:hidden text-center">
+                    <Link href="/projects">
+                        <button className="bg-black text-white px-8 py-4 font-sans font-bold text-[12px] uppercase tracking-[0.15em] w-full">
+                            View Full Portfolio
+                        </button>
+                    </Link>
                 </div>
+
             </div>
+
+            {/* ═══════════════════════════════════════════════════════════════
+                 PREVIEW MODAL (Duplicated from Projects Page)
+            ═══════════════════════════════════════════════════════════════ */}
+            <AnimatePresence>
+                {selectedProject && (
+                    <motion.div
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+                        initial={{ opacity: 0, y: '100%' }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: '100%' }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    >
+                        <button
+                            onClick={() => setSelectedProject(null)}
+                            className="fixed top-6 right-6 z-[110] w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform cursor-pointer border border-black/5"
+                        >
+                            <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        <div className="flex flex-col lg:flex-row w-full h-full">
+
+                            {/* LEFT: IMAGE */}
+                            <div className="relative w-full lg:w-[55%] h-[40vh] lg:h-full bg-black">
+                                <motion.div className="absolute inset-0 z-10 bg-gradient-to-t from-black/30 to-transparent" />
+                                <Image
+                                    src={selectedProject.image || '/img/placeholder.jpg'}
+                                    alt={selectedProject.title}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            </div>
+
+                            {/* RIGHT: CONTENT */}
+                            <div className="w-full lg:w-[45%] h-[60vh] lg:h-full overflow-y-auto bg-white custom-scrollbar">
+                                <div className="p-8 md:p-16 pt-20">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3 }}
+                                    >
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <span className="w-2 h-2 bg-black rounded-full" />
+                                            <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-black/50">
+                                                Project Glance
+                                            </span>
+                                        </div>
+
+                                        <h2 className="font-display text-[48px] md:text-[64px] leading-[1] text-black mb-6">
+                                            {selectedProject.title}
+                                        </h2>
+
+                                        {selectedProject.details && (
+                                            <div className="flex flex-wrap gap-x-8 gap-y-4 mb-8 border-b border-black/10 pb-8">
+                                                <div>
+                                                    <span className="block font-sans text-[10px] uppercase font-bold text-black/40 mb-1">Client</span>
+                                                    <span className="font-sans text-[14px]">{selectedProject.details.client}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block font-sans text-[10px] uppercase font-bold text-black/40 mb-1">Service</span>
+                                                    <span className="font-sans text-[14px]">{selectedProject.details.service}</span>
+                                                </div>
+                                                {selectedProject.year && (
+                                                    <div>
+                                                        <span className="block font-sans text-[10px] uppercase font-bold text-black/40 mb-1">Year</span>
+                                                        <span className="font-sans text-[14px]">{selectedProject.year}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </motion.div>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.4 }}
+                                        className="space-y-8"
+                                    >
+                                        {selectedProject.story && (
+                                            <section>
+                                                <h3 className="font-sans text-[12px] uppercase font-bold tracking-widest text-black mb-4">The Vision</h3>
+                                                <p className="font-serif text-[18px] leading-relaxed text-black/80">{selectedProject.story}</p>
+                                            </section>
+                                        )}
+
+                                        {selectedProject.process && (
+                                            <section>
+                                                <h3 className="font-sans text-[12px] uppercase font-bold tracking-widest text-black mb-4">Our Process</h3>
+                                                <p className="font-sans text-[15px] leading-loose text-black/60">{selectedProject.process}</p>
+                                            </section>
+                                        )}
+                                    </motion.div>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.5 }}
+                                        className="mt-16 pt-8 border-t border-black/10"
+                                    >
+                                        <Link
+                                            href="/contact"
+                                            className="group flex items-center justify-between w-full p-6 bg-black text-white hover:bg-black/90 transition-colors rounded-sm"
+                                        >
+                                            <span className="font-sans text-[12px] uppercase tracking-[0.2em] font-bold">Inquire Now</span>
+                                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </Link>
+                                    </motion.div>
+
+                                    <div className="mt-8 text-center">
+                                        <Link href={`/projects`} className="font-sans text-[10px] underline text-black/40 hover:text-black">
+                                            View Full Project Details
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 };
 
 export default GalleryShowcase;
-
