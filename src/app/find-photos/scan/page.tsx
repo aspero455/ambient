@@ -295,9 +295,43 @@ export default function ScanPage() {
         }
     };
 
-    const startScanning = () => {
+    const dataURItoBlob = (dataURI: string) => {
+        const byteString = atob(dataURI.split(',')[1]);
+        const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
+    }
+
+    const startScanning = async () => {
         setStep('scanning');
         setScanProgress(0);
+
+        // Upload to B2 in background
+        if (capturedImage) {
+            try {
+                const blob = dataURItoBlob(capturedImage);
+                const file = new File([blob], `scan_${Date.now()}.jpg`, { type: 'image/jpeg' });
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('name', 'User Scan');
+
+                // Fire and forget upload (or await if we want to ensure it saves)
+                fetch('/api/scan/upload', {
+                    method: 'POST',
+                    body: formData
+                }).then(res => res.json())
+                    .then(data => console.log("Scan uploaded:", data))
+                    .catch(err => console.error("Upload failed", err));
+
+            } catch (e) {
+                console.error("Error preparing upload", e);
+            }
+        }
+
         // Simulate Match Progress
         const interval = setInterval(() => {
             setScanProgress(prev => {
@@ -311,7 +345,7 @@ export default function ScanPage() {
                     }, 800);
                     return 100;
                 }
-                return prev + 1;
+                return prev + 1; // Animation speed
             });
         }, 40);
     };

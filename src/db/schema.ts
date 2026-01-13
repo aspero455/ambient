@@ -12,11 +12,25 @@ export const bookings = sqliteTable('bookings', {
     createdAt: text('created_at').notNull(),
 });
 
+export const events = sqliteTable('events', {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    slug: text('slug').notNull().unique(),
+    date: text('date').notNull(),
+    location: text('location'),
+    coverImage: text('cover_image'),
+    createdAt: text('created_at').notNull(),
+});
+
 export const photos = sqliteTable('photos', {
     id: text('id').primaryKey(),
+    eventId: text('event_id').references(() => events.id),
     url: text('url').notNull(),
+    storageKey: text('storage_key').notNull(), // For deletion from B2
     originalName: text('original_name'),
-    faceId: text('face_id'),
+    embedding: text('embedding'), // JSON string of face descriptors detected in the photo
+    width: integer('width'),
+    height: integer('height'),
     uploadedAt: text('uploaded_at').notNull(),
 });
 
