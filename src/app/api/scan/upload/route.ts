@@ -1,6 +1,5 @@
-
 import { NextResponse } from 'next/server';
-import { s3, checkConnection } from '@/lib/b2';
+import { getS3Client, checkConnection } from '@/lib/b2';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { PhotoModel } from '@/lib/model';
 
@@ -23,6 +22,8 @@ export async function POST(req: Request) {
         // 2. Upload to B2
         const buffer = Buffer.from(await file.arrayBuffer());
         const key = `scans/${Date.now()}_${file.name}`;
+
+        const s3 = await getS3Client();
 
         await s3.send(new PutObjectCommand({
             Bucket: bucketName,

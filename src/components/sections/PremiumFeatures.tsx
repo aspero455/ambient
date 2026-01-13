@@ -87,7 +87,7 @@ const PremiumFeatures: React.FC = () => {
             className="relative bg-[#0a0a0a] py-24 md:py-32 overflow-hidden"
         >
             {/* Animated Grain/Noise Overlay */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-[1]">
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-[1] hidden md:block">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] animate-noise"></div>
             </div>
 
@@ -144,7 +144,7 @@ const PremiumFeatures: React.FC = () => {
                                         src={service.image}
                                         alt={service.title}
                                         fill
-                                        classes={`object-cover object-${service.position} transition-transform duration-[1.5s] ease-out ${isActive ? 'scale-110' : 'scale-100 grayscale hover:grayscale-0'}`}
+
                                         className={`object-cover object-${service.position} transition-transform duration-[1.5s] ease-out ${isActive ? 'scale-110' : 'scale-100 grayscale-[0.5]'}`}
                                     />
                                     {/* Dark Gradient Overlay */}
